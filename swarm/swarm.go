@@ -23,22 +23,22 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/contracts/chequebook"
-	"github.com/ethereum/go-ethereum/contracts/ens"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/swarm/api"
-	httpapi "github.com/ethereum/go-ethereum/swarm/api/http"
-	"github.com/ethereum/go-ethereum/swarm/fuse"
-	"github.com/ethereum/go-ethereum/swarm/network"
-	"github.com/ethereum/go-ethereum/swarm/storage"
+	"github.com/ethereumq/go-ethereumq/accounts/abi/bind"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/contracts/chequebook"
+	"github.com/ethereumq/go-ethereumq/contracts/ens"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/ethclient"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/rpc"
+	"github.com/ethereumq/go-ethereumq/swarm/api"
+	httpapi "github.com/ethereumq/go-ethereumq/swarm/api/http"
+	"github.com/ethereumq/go-ethereumq/swarm/fuse"
+	"github.com/ethereumq/go-ethereumq/swarm/network"
+	"github.com/ethereumq/go-ethereumq/swarm/storage"
 )
 
 // the swarm stack
@@ -220,7 +220,7 @@ func (self *Swarm) Start(srv *p2p.Server) error {
 // stops all component services.
 func (self *Swarm) Stop() error {
 	self.dpa.Stop()
-	err := self.hive.Stop()
+	self.hive.Stop()
 	if ch := self.config.Swap.Chequebook(); ch != nil {
 		ch.Stop()
 		ch.Save()
@@ -230,7 +230,7 @@ func (self *Swarm) Stop() error {
 		self.lstore.DbStore.Close()
 	}
 	self.sfs.Stop()
-	return err
+	return self.config.Save()
 }
 
 // implements the node.Service interface
@@ -301,6 +301,7 @@ func (self *Swarm) SetChequebook(ctx context.Context) error {
 		return err
 	}
 	log.Info(fmt.Sprintf("new chequebook set (%v): saving config file, resetting all connections in the hive", self.config.Swap.Contract.Hex()))
+	self.config.Save()
 	self.hive.DropAll()
 	return nil
 }
@@ -313,9 +314,10 @@ func NewLocalSwarm(datadir, port string) (self *Swarm, err error) {
 		return
 	}
 
-	config := api.NewDefaultConfig()
-	config.Path = datadir
-	config.Init(prvKey)
+	config, err := api.NewConfig(datadir, common.Address{}, prvKey, network.NetworkId)
+	if err != nil {
+		return
+	}
 	config.Port = port
 
 	dpa, err := storage.NewLocalDPA(datadir)

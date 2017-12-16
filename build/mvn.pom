@@ -9,9 +9,9 @@
   <version>{{.Version}}</version>
   <packaging>aar</packaging>
 
-  <name>Android Ethereum Client</name>
+  <name>Android  Ethereum Quantum Client</name>
   <description>Android port of the go-ethereum libraries and node</description>
-  <url>https://github.com/ethereum/go-ethereum</url>
+  <url>https://github.com/ethereumq/go-ethereumq</url>
   <inceptionYear>2015</inceptionYear>
 
   <licenses>
@@ -48,10 +48,10 @@
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/ethereum/go-ethereum/issues/</url>
+    <url>https://github.com/ethereumq/go-ethereumq/issues/</url>
   </issueManagement>
 
   <scm>
-    <url>https://github.com/ethereum/go-ethereum</url>
+    <url>https://github.com/ethereumq/go-ethereumq</url>
   </scm>
 </project>

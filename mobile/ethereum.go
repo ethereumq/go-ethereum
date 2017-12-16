@@ -22,8 +22,8 @@ import (
 	"errors"
 	"math/big"
 
-	ethereum "github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
+	ethereum "github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/common"
 )
 
 // Subscription represents an event subscription where events are
@@ -73,7 +73,7 @@ func (msg *CallMsg) SetTo(address *Address) {
 }
 
 // SyncProgress gives progress indications when the node is synchronising with
-// the Ethereum network.
+// the  Ethereum Quantum network.
 type SyncProgress struct {
 	progress ethereum.SyncProgress
 }

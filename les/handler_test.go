@@ -23,17 +23,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/light"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/trie"
 )
 
 func expectResponse(r p2p.MsgReader, msgcode, reqID, bv uint64, data interface{}) error {
@@ -416,9 +416,7 @@ func TestTransactionStatusLes2(t *testing.T) {
 	db, _ := ethdb.NewMemDatabase()
 	pm := newTestProtocolManagerMust(t, false, 0, nil, nil, nil, db)
 	chain := pm.blockchain.(*core.BlockChain)
-	config := core.DefaultTxPoolConfig
-	config.Journal = ""
-	txpool := core.NewTxPool(config, params.TestChainConfig, chain)
+	txpool := core.NewTxPool(core.DefaultTxPoolConfig, params.TestChainConfig, chain)
 	pm.txpool = txpool
 	peer, _ := newTestPeer(t, "peer", 2, pm, true)
 	defer peer.close()

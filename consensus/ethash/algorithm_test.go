@@ -25,9 +25,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/core/types"
 )
 
 // Tests that verification caches can be correctly generated.
@@ -703,7 +703,8 @@ func TestConcurrentDiskCacheGeneration(t *testing.T) {
 
 		go func(idx int) {
 			defer pend.Done()
-			ethash := New(Config{cachedir, 0, 1, "", 0, 0, ModeNormal})
+
+			ethash := New(cachedir, 0, 1, "", 0, 0)
 			if err := ethash.VerifySeal(nil, block.Header()); err != nil {
 				t.Errorf("proc %d: block verification failed: %v", idx, err)
 			}

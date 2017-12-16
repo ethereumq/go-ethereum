@@ -19,13 +19,13 @@ package eth
 import (
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/bitutil"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/bloombits"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/bitutil"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/bloombits"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 const (
@@ -89,7 +89,7 @@ const (
 )
 
 // BloomIndexer implements a core.ChainIndexer, building up a rotated bloom bits index
-// for the Ethereum header bloom filters, permitting blazing fast filtering.
+// for the  Ethereum Quantum header bloom filters, permitting blazing fast filtering.
 type BloomIndexer struct {
 	size uint64 // section size to generate bloombits for
 

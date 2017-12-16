@@ -2409,7 +2409,7 @@ var isJson = function (str) {
 };
 
 /**
- * Returns true if given string is a valid Ethereum block header bloom.
+ * Returns true if given string is a valid  Ethereum Quantum block header bloom.
  *
  * @method isBloom
  * @param {String} hex encoded bloom filter
@@ -4292,7 +4292,7 @@ var XHR2 = require('xhr2'); // jshint ignore: line
  * HttpProvider should be used to send rpc calls over http
  */
 var HttpProvider = function (host, timeout, user, password) {
-  this.host = host || 'http://localhost:8545';
+  this.host = host || 'http://localhost:9545';
   this.timeout = timeout || 0;
   this.user = user;
   this.password = password;
@@ -5862,7 +5862,7 @@ module.exports = Shh;
  * @author Alex Beregszaszi <alex@rtfs.hu>
  * @date 2016
  *
- * Reference: https://github.com/ethereum/go-ethereum/blob/swarm/internal/web3ext/web3ext.go#L33
+ * Reference: https://github.com/ethereumq/go-ethereumq/blob/swarm/internal/web3ext/web3ext.go#L33
  */
 
 "use strict";

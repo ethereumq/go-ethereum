@@ -24,14 +24,14 @@ import (
 	"net"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/crypto/sha3"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/p2p/netutil"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/mclock"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/crypto/sha3"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p/nat"
+	"github.com/ethereumq/go-ethereumq/p2p/netutil"
+	"github.com/ethereumq/go-ethereumq/rlp"
 )
 
 var (
@@ -684,7 +684,7 @@ func (net *Network) refresh(done chan<- struct{}) {
 		seeds = net.nursery
 	}
 	if len(seeds) == 0 {
-		log.Trace("no seed nodes found")
+		log.Trace(fmt.Sprint("no seed nodes found"))
 		close(done)
 		return
 	}

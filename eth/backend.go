@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package eth implements the Ethereum protocol.
+// Package eth implements the  Ethereum Quantum protocol.
 package eth
 
 import (
@@ -25,29 +25,29 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/clique"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/bloombits"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/filters"
-	"github.com/ethereum/go-ethereum/eth/gasprice"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/consensus/clique"
+	"github.com/ethereumq/go-ethereumq/consensus/ethash"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/bloombits"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/eth/filters"
+	"github.com/ethereumq/go-ethereumq/eth/gasprice"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/internal/ethapi"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/miner"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 type LesServer interface {
@@ -57,8 +57,8 @@ type LesServer interface {
 	SetBloomBitsIndexer(bbIndexer *core.ChainIndexer)
 }
 
-// Ethereum implements the Ethereum full node service.
-type Ethereum struct {
+//  Ethereum Quantum implements the  Ethereum Quantum full node service.
+type  Ethereum  struct {
 	config      *Config
 	chainConfig *params.ChainConfig
 
@@ -99,11 +99,11 @@ func (s *Ethereum) AddLesServer(ls LesServer) {
 	ls.SetBloomBitsIndexer(s.bloomIndexer)
 }
 
-// New creates a new Ethereum object (including the
-// initialisation of the common Ethereum object)
+// New creates a new  Ethereum Quantum object (including the
+// initialisation of the common  Ethereum Quantum object)
 func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	if config.SyncMode == downloader.LightSync {
-		return nil, errors.New("can't run eth.Ethereum in light sync mode, use les.LightEthereum")
+		return nil, errors.New("can't run eth.Ethereum Quantum in light sync mode, use les.LightEthereum Quantum")
 	}
 	if !config.SyncMode.IsValid() {
 		return nil, fmt.Errorf("invalid sync mode %d", config.SyncMode)
@@ -125,7 +125,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 		chainConfig:    chainConfig,
 		eventMux:       ctx.EventMux,
 		accountManager: ctx.AccountManager,
-		engine:         CreateConsensusEngine(ctx, &config.Ethash, chainConfig, chainDb),
+		engine:         CreateConsensusEngine(ctx, config, chainConfig, chainDb),
 		shutdownChan:   make(chan bool),
 		stopDbUpgrade:  stopDbUpgrade,
 		networkId:      config.NetworkId,
@@ -135,7 +135,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 		bloomIndexer:   NewBloomIndexer(chainDb, params.BloomBitsBlocks),
 	}
 
-	log.Info("Initialising Ethereum protocol", "versions", ProtocolVersions, "network", config.NetworkId)
+	log.Info("Initialising  Ethereum Quantum protocol", "versions", ProtocolVersions, "network", config.NetworkId)
 
 	if !config.SkipBcVersionCheck {
 		bcVersion := core.GetBlockChainVersion(chainDb)
@@ -166,6 +166,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	if eth.protocolManager, err = NewProtocolManager(eth.chainConfig, config.SyncMode, config.NetworkId, eth.eventMux, eth.txPool, eth.engine, eth.blockchain, chainDb); err != nil {
 		return nil, err
 	}
+
 	eth.miner = miner.New(eth, eth.chainConfig, eth.EventMux(), eth.engine)
 	eth.miner.SetExtra(makeExtraData(config.ExtraData))
 
@@ -208,32 +209,26 @@ func CreateDB(ctx *node.ServiceContext, config *Config, name string) (ethdb.Data
 	return db, nil
 }
 
-// CreateConsensusEngine creates the required type of consensus engine instance for an Ethereum service
-func CreateConsensusEngine(ctx *node.ServiceContext, config *ethash.Config, chainConfig *params.ChainConfig, db ethdb.Database) consensus.Engine {
+// CreateConsensusEngine creates the required type of consensus engine instance for an  Ethereum Quantum service
+func CreateConsensusEngine(ctx *node.ServiceContext, config *Config, chainConfig *params.ChainConfig, db ethdb.Database) consensus.Engine {
 	// If proof-of-authority is requested, set it up
 	if chainConfig.Clique != nil {
 		return clique.New(chainConfig.Clique, db)
 	}
 	// Otherwise assume proof-of-work
 	switch {
-	case config.PowMode == ethash.ModeFake:
+	case config.PowFake:
 		log.Warn("Ethash used in fake mode")
 		return ethash.NewFaker()
-	case config.PowMode == ethash.ModeTest:
+	case config.PowTest:
 		log.Warn("Ethash used in test mode")
 		return ethash.NewTester()
-	case config.PowMode == ethash.ModeShared:
+	case config.PowShared:
 		log.Warn("Ethash used in shared mode")
 		return ethash.NewShared()
 	default:
-		engine := ethash.New(ethash.Config{
-			CacheDir:       ctx.ResolvePath(config.CacheDir),
-			CachesInMem:    config.CachesInMem,
-			CachesOnDisk:   config.CachesOnDisk,
-			DatasetDir:     config.DatasetDir,
-			DatasetsInMem:  config.DatasetsInMem,
-			DatasetsOnDisk: config.DatasetsOnDisk,
-		})
+		engine := ethash.New(ctx.ResolvePath(config.EthashCacheDir), config.EthashCachesInMem, config.EthashCachesOnDisk,
+			config.EthashDatasetDir, config.EthashDatasetsInMem, config.EthashDatasetsOnDisk)
 		engine.SetThreads(-1) // Disable CPU mining
 		return engine
 	}
@@ -310,17 +305,10 @@ func (s *Ethereum) Etherbase() (eb common.Address, err error) {
 	}
 	if wallets := s.AccountManager().Wallets(); len(wallets) > 0 {
 		if accounts := wallets[0].Accounts(); len(accounts) > 0 {
-			etherbase := accounts[0].Address
-
-			s.lock.Lock()
-			s.etherbase = etherbase
-			s.lock.Unlock()
-
-			log.Info("Etherbase automatically configured", "address", etherbase)
-			return etherbase, nil
+			return accounts[0].Address, nil
 		}
 	}
-	return common.Address{}, fmt.Errorf("etherbase must be explicitly specified")
+	return common.Address{}, fmt.Errorf("etherbase address must be explicitly specified")
 }
 
 // set in js console via admin interface or wrapper from cli flags
@@ -382,7 +370,7 @@ func (s *Ethereum) Protocols() []p2p.Protocol {
 }
 
 // Start implements node.Service, starting all internal goroutines needed by the
-// Ethereum protocol implementation.
+//  Ethereum Quantum protocol implementation.
 func (s *Ethereum) Start(srvr *p2p.Server) error {
 	// Start the bloom bits servicing goroutines
 	s.startBloomHandlers()
@@ -407,7 +395,7 @@ func (s *Ethereum) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// Ethereum protocol.
+//  Ethereum Quantum protocol.
 func (s *Ethereum) Stop() error {
 	if s.stopDbUpgrade != nil {
 		s.stopDbUpgrade()

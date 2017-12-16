@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package tests implements execution of Ethereum JSON tests.
+// Package tests implements execution of  Ethereum Quantum JSON tests.
 package tests
 
 import (
@@ -24,17 +24,17 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/common/math"
+	"github.com/ethereumq/go-ethereumq/consensus/ethash"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
 )
 
 // A BlockTest checks handling of entire blocks.

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package state provides a caching layer atop the Ethereum state trie.
+// Package state provides a caching layer atop the  Ethereum Quantum state trie.
 package state
 
 import (
@@ -23,12 +23,12 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/trie"
 )
 
 type revision struct {
@@ -453,7 +453,7 @@ func (self *StateDB) Copy() *StateDB {
 	// Copy all the basic fields, initialize the memory ones
 	state := &StateDB{
 		db:                self.db,
-		trie:              self.db.CopyTrie(self.trie),
+		trie:              self.trie,
 		stateObjects:      make(map[common.Address]*stateObject, len(self.stateObjectsDirty)),
 		stateObjectsDirty: make(map[common.Address]struct{}, len(self.stateObjectsDirty)),
 		refund:            new(big.Int).Set(self.refund),

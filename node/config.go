@@ -25,14 +25,14 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/accounts/usbwallet"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/accounts/keystore"
+	"github.com/ethereumq/go-ethereumq/accounts/usbwallet"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
 )
 
 const (
@@ -135,9 +135,6 @@ type Config struct {
 	// *WARNING* Only set this if the node is running in a trusted network, exposing
 	// private APIs to untrusted users is a major security risk.
 	WSExposeAll bool `toml:",omitempty"`
-
-	// Logger is a custom logger to use with the p2p.Server.
-	Logger log.Logger
 }
 
 // IPCEndpoint resolves an IPC endpoint based on a configured value, taking into

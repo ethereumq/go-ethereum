@@ -28,9 +28,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/rpc"
 	"github.com/rcrowley/go-metrics"
 	"golang.org/x/net/websocket"
 )

@@ -24,11 +24,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereumq/go-ethereumq/common/mclock"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/rlp"
 )
 
 const (
@@ -158,11 +158,6 @@ func (p *Peer) Disconnect(reason DiscReason) {
 // String implements fmt.Stringer.
 func (p *Peer) String() string {
 	return fmt.Sprintf("Peer %x %v", p.rw.id[:8], p.RemoteAddr())
-}
-
-// Inbound returns true if the peer is an inbound connection
-func (p *Peer) Inbound() bool {
-	return p.rw.flags&inboundConn != 0
 }
 
 func newPeer(conn *conn, protocols []Protocol) *Peer {

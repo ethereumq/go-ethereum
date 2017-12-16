@@ -20,11 +20,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common/math"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // BlockValidator is responsible for validating block headers, uncles and

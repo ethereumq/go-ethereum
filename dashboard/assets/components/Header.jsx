@@ -70,7 +70,7 @@ class Header extends Component {
                         <MenuIcon />
                     </IconButton>
                     <Typography type="title" color="inherit" noWrap>
-                        Go Ethereum Dashboard
+                        Go  Ethereum Quantum Dashboard
                     </Typography>
                 </Toolbar>
             </AppBar>

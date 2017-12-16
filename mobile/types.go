@@ -23,9 +23,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/rlp"
 )
 
 // A Nonce is a 64-bit hash which proves (combined with the mix-hash) that
@@ -59,7 +59,7 @@ func (b *Bloom) GetHex() string {
 	return fmt.Sprintf("0x%x", b.bloom[:])
 }
 
-// Header represents a block header in the Ethereum blockchain.
+// Header represents a block header in the  Ethereum Quantum blockchain.
 type Header struct {
 	header *types.Header
 }
@@ -136,7 +136,7 @@ func (h *Headers) Get(index int) (header *Header, _ error) {
 	return &Header{h.headers[index]}, nil
 }
 
-// Block represents an entire block in the Ethereum blockchain.
+// Block represents an entire block in the  Ethereum Quantum blockchain.
 type Block struct {
 	block *types.Block
 }
@@ -206,7 +206,7 @@ func (b *Block) GetTransaction(hash *Hash) *Transaction {
 	return &Transaction{b.block.Transaction(hash.hash)}
 }
 
-// Transaction represents a single Ethereum transaction.
+// Transaction represents a single  Ethereum Quantum transaction.
 type Transaction struct {
 	tx *types.Transaction
 }

@@ -28,13 +28,13 @@ import (
 
 	cli "gopkg.in/urfave/cli.v1"
 
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/contracts/release"
-	"github.com/ethereum/go-ethereum/dashboard"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/params"
-	whisper "github.com/ethereum/go-ethereum/whisper/whisperv5"
+	"github.com/ethereumq/go-ethereumq/cmd/utils"
+	"github.com/ethereumq/go-ethereumq/contracts/release"
+	"github.com/ethereumq/go-ethereumq/dashboard"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/params"
+	whisper "github.com/ethereumq/go-ethereumq/whisper/whisperv5"
 	"github.com/naoina/toml"
 )
 
@@ -173,7 +173,7 @@ func makeFullNode(ctx *cli.Context) *node.Node {
 		utils.RegisterShhService(stack, &cfg.Shh)
 	}
 
-	// Add the Ethereum Stats daemon if requested.
+	// Add the  Ethereum Quantum Stats daemon if requested.
 	if cfg.Ethstats.URL != "" {
 		utils.RegisterEthStatsService(stack, cfg.Ethstats.URL)
 	}

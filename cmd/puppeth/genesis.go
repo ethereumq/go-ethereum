@@ -21,15 +21,15 @@ import (
 	"errors"
 	"math"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/consensus/ethash"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // cppEthereumGenesisSpec represents the genesis specification format used by the
-// C++ Ethereum implementation.
+// C++  Ethereum Quantum Quantum implementation.
 type cppEthereumGenesisSpec struct {
 	SealEngine string `json:"sealEngine"`
 	Params     struct {
@@ -342,7 +342,7 @@ func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []strin
 }
 
 // pyEthereumGenesisSpec represents the genesis specification format used by the
-// Python Ethereum implementation.
+// Python  Ethereum Quantum Quantum implementation.
 type pyEthereumGenesisSpec struct {
 	Nonce      hexutil.Bytes     `json:"nonce"`
 	Timestamp  hexutil.Uint64    `json:"timestamp"`

@@ -23,29 +23,26 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/gasprice"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/eth/gasprice"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
-// DefaultConfig contains default settings for use on the Ethereum main net.
+// DefaultConfig contains default settings for use on the  Ethereum Quantum main net.
 var DefaultConfig = Config{
-	SyncMode: downloader.FastSync,
-	Ethash: ethash.Config{
-		CacheDir:       "ethash",
-		CachesInMem:    2,
-		CachesOnDisk:   3,
-		DatasetsInMem:  1,
-		DatasetsOnDisk: 2,
-	},
-	NetworkId:     1,
-	LightPeers:    20,
-	DatabaseCache: 128,
-	GasPrice:      big.NewInt(18 * params.Shannon),
+	SyncMode:             downloader.FastSync,
+	EthashCacheDir:       "ethashq",
+	EthashCachesInMem:    2,
+	EthashCachesOnDisk:   3,
+	EthashDatasetsInMem:  1,
+	EthashDatasetsOnDisk: 2,
+	NetworkId:            1,
+	LightPeers:           20,
+	DatabaseCache:        128,
+	GasPrice:             big.NewInt(18 * params.Shannon),
 
 	TxPool: core.DefaultTxPoolConfig,
 	GPO: gasprice.Config{
@@ -62,9 +59,9 @@ func init() {
 		}
 	}
 	if runtime.GOOS == "windows" {
-		DefaultConfig.Ethash.DatasetDir = filepath.Join(home, "AppData", "Ethash")
+		DefaultConfig.EthashDatasetDir = filepath.Join(home, "AppData", "Ethashq")
 	} else {
-		DefaultConfig.Ethash.DatasetDir = filepath.Join(home, ".ethash")
+		DefaultConfig.EthashDatasetDir = filepath.Join(home, ".ethashq")
 	}
 }
 
@@ -72,7 +69,7 @@ func init() {
 
 type Config struct {
 	// The genesis block, which is inserted if the database is empty.
-	// If nil, the Ethereum main net block is used.
+	// If nil, the  Ethereum Quantum main net block is used.
 	Genesis *core.Genesis `toml:",omitempty"`
 
 	// Protocol options
@@ -95,7 +92,12 @@ type Config struct {
 	GasPrice     *big.Int
 
 	// Ethash options
-	Ethash ethash.Config
+	EthashCacheDir       string
+	EthashCachesInMem    int
+	EthashCachesOnDisk   int
+	EthashDatasetDir     string
+	EthashDatasetsInMem  int
+	EthashDatasetsOnDisk int
 
 	// Transaction pool options
 	TxPool core.TxPoolConfig
@@ -107,7 +109,10 @@ type Config struct {
 	EnablePreimageRecording bool
 
 	// Miscellaneous options
-	DocRoot string `toml:"-"`
+	DocRoot   string `toml:"-"`
+	PowFake   bool   `toml:"-"`
+	PowTest   bool   `toml:"-"`
+	PowShared bool   `toml:"-"`
 }
 
 type configMarshaling struct {

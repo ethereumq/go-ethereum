@@ -51,10 +51,10 @@
 			"revisionTime": "2017-02-10T01:56:32Z"
 		},
 		{
-			"checksumSHA1": "gZQ6HheWahvZzIc3phBnOwoWHjE=",
+			"checksumSHA1": "fIpm6Vr5a8kgr22gWkQx7vKUTyU=",
 			"path": "github.com/btcsuite/btcd/btcec",
-			"revision": "2e60448ffcc6bf78332d1fe590260095f554dd78",
-			"revisionTime": "2017-11-28T15:02:46Z"
+			"revision": "d06c0bb181529331be8f8d9350288c420d9e60e4",
+			"revisionTime": "2017-02-01T21:25:25Z"
 		},
 		{
 			"checksumSHA1": "cDMtzKmdTx4CcIpP4broa+16X9g=",
@@ -712,5 +712,5 @@
 			"revisionTime": "2017-08-11T01:42:03Z"
 		}
 	],
-	"rootPath": "github.com/ethereum/go-ethereum"
+	"rootPath": "github.com/ethereumq/go-ethereumq"
 }

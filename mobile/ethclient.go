@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Contains a wrapper for the Ethereum client.
+// Contains a wrapper for the  Ethereum Quantum client.
 
 package geth
 
 import (
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/ethclient"
 )
 
-// EthereumClient provides access to the Ethereum APIs.
+// EthereumClient provides access to the  Ethereum Quantum APIs.
 type EthereumClient struct {
 	client *ethclient.Client
 }

@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/trie"
 	lru "github.com/hashicorp/golang-lru"
 )
 
@@ -52,7 +52,7 @@ type Database interface {
 	CopyTrie(Trie) Trie
 }
 
-// Trie is a Ethereum Merkle Trie.
+// Trie is a  Ethereum Quantum Merkle Trie.
 type Trie interface {
 	TryGet(key []byte) ([]byte, error)
 	TryUpdate(key, value []byte) error

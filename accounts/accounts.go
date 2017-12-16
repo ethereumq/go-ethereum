@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package accounts implements high level Ethereum account management.
+// Package accounts implements high level  Ethereum Quantum account management.
 package accounts
 
 import (
 	"math/big"
 
-	ethereum "github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/event"
+	ethereum "github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/event"
 )
 
-// Account represents an Ethereum account located at a specific location defined
+// Account represents an  Ethereum Quantum account located at a specific location defined
 // by the optional URL field.
 type Account struct {
-	Address common.Address `json:"address"` // Ethereum account address derived from the key
+	Address common.Address `json:"address"` //  Ethereum Quantum account address derived from the key
 	URL     URL            `json:"url"`     // Optional resource locator within a backend
 }
 

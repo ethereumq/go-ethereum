@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package ethclient provides a client for the Ethereum RPC API.
+// Package ethclient provides a client for the  Ethereum Quantum RPC API.
 package ethclient
 
 import (
@@ -24,15 +24,15 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
-// Client defines typed wrappers for the Ethereum RPC API.
+// Client defines typed wrappers for the  Ethereum Quantum RPC API.
 type Client struct {
 	c *rpc.Client
 }

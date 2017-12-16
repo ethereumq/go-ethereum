@@ -25,15 +25,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/les"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/accounts/abi/bind"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/internal/ethapi"
+	"github.com/ethereumq/go-ethereumq/les"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 // Interval to check for new releases
@@ -41,7 +41,7 @@ const releaseRecheckInterval = time.Hour
 
 // Config contains the configurations of the release service.
 type Config struct {
-	Oracle common.Address // Ethereum address of the release oracle
+	Oracle common.Address //  Ethereum Quantum address of the release oracle
 	Major  uint32         // Major version component of the release
 	Minor  uint32         // Minor version component of the release
 	Patch  uint32         // Patch version component of the release
@@ -60,7 +60,7 @@ type ReleaseService struct {
 // NewReleaseService creates a new service to periodically check for new client
 // releases and notify the user of such.
 func NewReleaseService(ctx *node.ServiceContext, config Config) (node.Service, error) {
-	// Retrieve the Ethereum service dependency to access the blockchain
+	// Retrieve the  Ethereum Quantum service dependency to access the blockchain
 	var apiBackend ethapi.Backend
 	var ethereum *eth.Ethereum
 	if err := ctx.Service(&ethereum); err == nil {
@@ -149,7 +149,7 @@ func (r *ReleaseService) checkVersion() {
 
 		warning := fmt.Sprintf("Client v%d.%d.%d-%x seems older than the latest upstream release v%d.%d.%d-%x",
 			r.config.Major, r.config.Minor, r.config.Patch, r.config.Commit[:4], version.Major, version.Minor, version.Patch, version.Commit[:4])
-		howtofix := fmt.Sprintf("Please check https://github.com/ethereum/go-ethereum/releases for new releases")
+		howtofix := fmt.Sprintf("Please check https://github.com/ethereumq/go-ethereumq/releases for new releases")
 		separator := strings.Repeat("-", len(warning))
 
 		log.Warn(separator)

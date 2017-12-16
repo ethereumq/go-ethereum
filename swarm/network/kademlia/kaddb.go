@@ -24,7 +24,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/log"
 )
 
 type NodeData interface {
@@ -330,7 +330,7 @@ func (self *KadDb) load(path string, cb func(*NodeRecord, Node) error) (err erro
 				}
 			}
 			n++
-			if node.After.IsZero() {
+			if (node.After == time.Time{}) {
 				node.After = time.Now()
 			}
 			self.index[node.Addr] = node

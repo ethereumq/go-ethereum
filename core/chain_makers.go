@@ -20,14 +20,13 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/consensus/ethash"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // So we can deterministically seed different blockchains
@@ -164,17 +163,6 @@ func GenerateChain(config *params.ChainConfig, parent *types.Block, db ethdb.Dat
 	genblock := func(i int, h *types.Header, statedb *state.StateDB) (*types.Block, types.Receipts) {
 		b := &BlockGen{parent: parent, i: i, chain: blocks, header: h, statedb: statedb, config: config}
 		// Mutate the state and block according to any hard-fork specs
-		if daoBlock := config.DAOForkBlock; daoBlock != nil {
-			limit := new(big.Int).Add(daoBlock, params.DAOForkExtraRange)
-			if h.Number.Cmp(daoBlock) >= 0 && h.Number.Cmp(limit) < 0 {
-				if config.DAOForkSupport {
-					h.Extra = common.CopyBytes(params.DAOForkBlockExtra)
-				}
-			}
-		}
-		if config.DAOForkSupport && config.DAOForkBlock != nil && config.DAOForkBlock.Cmp(h.Number) == 0 {
-			misc.ApplyDAOHardFork(statedb)
-		}
 		// Execute any user modifications to the block and finalize it
 		if gen != nil {
 			gen(i, b)

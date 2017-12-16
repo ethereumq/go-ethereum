@@ -31,24 +31,23 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/console"
-	"github.com/ethereum/go-ethereum/contracts/ens"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/internal/debug"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/swarm"
-	bzzapi "github.com/ethereum/go-ethereum/swarm/api"
-
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/accounts/keystore"
+	"github.com/ethereumq/go-ethereumq/cmd/utils"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/console"
+	"github.com/ethereumq/go-ethereumq/contracts/ens"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/ethclient"
+	"github.com/ethereumq/go-ethereumq/internal/debug"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rpc"
+	"github.com/ethereumq/go-ethereumq/swarm"
+	bzzapi "github.com/ethereumq/go-ethereumq/swarm/api"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -57,68 +56,54 @@ const clientIdentifier = "swarm"
 var (
 	gitCommit        string // Git SHA1 commit hash of the release (set via linker flags)
 	testbetBootNodes = []string{
-		"enode://ec8ae764f7cb0417bdfb009b9d0f18ab3818a3a4e8e7c67dd5f18971a93510a2e6f43cd0b69a27e439a9629457ea804104f37c85e41eed057d3faabbf7744cdf@13.74.157.139:30429",
-		"enode://c2e1fceb3bf3be19dff71eec6cccf19f2dbf7567ee017d130240c670be8594bc9163353ca55dd8df7a4f161dd94b36d0615c17418b5a3cdcbb4e9d99dfa4de37@13.74.157.139:30430",
-		"enode://fe29b82319b734ce1ec68b84657d57145fee237387e63273989d354486731e59f78858e452ef800a020559da22dcca759536e6aa5517c53930d29ce0b1029286@13.74.157.139:30431",
-		"enode://1d7187e7bde45cf0bee489ce9852dd6d1a0d9aa67a33a6b8e6db8a4fbc6fcfa6f0f1a5419343671521b863b187d1c73bad3603bae66421d157ffef357669ddb8@13.74.157.139:30432",
-		"enode://0e4cba800f7b1ee73673afa6a4acead4018f0149d2e3216be3f133318fd165b324cd71b81fbe1e80deac8dbf56e57a49db7be67f8b9bc81bd2b7ee496434fb5d@13.74.157.139:30433",
 	}
 )
 
 var (
 	ChequebookAddrFlag = cli.StringFlag{
-		Name:   "chequebook",
-		Usage:  "chequebook contract address",
-		EnvVar: SWARM_ENV_CHEQUEBOOK_ADDR,
+		Name:  "chequebook",
+		Usage: "chequebook contract address",
 	}
 	SwarmAccountFlag = cli.StringFlag{
-		Name:   "bzzaccount",
-		Usage:  "Swarm account key file",
-		EnvVar: SWARM_ENV_ACCOUNT,
+		Name:  "bzzaccount",
+		Usage: "Swarm account key file",
 	}
 	SwarmListenAddrFlag = cli.StringFlag{
-		Name:   "httpaddr",
-		Usage:  "Swarm HTTP API listening interface",
-		EnvVar: SWARM_ENV_LISTEN_ADDR,
+		Name:  "httpaddr",
+		Usage: "Swarm HTTP API listening interface",
 	}
 	SwarmPortFlag = cli.StringFlag{
-		Name:   "bzzport",
-		Usage:  "Swarm local http api port",
-		EnvVar: SWARM_ENV_PORT,
+		Name:  "bzzport",
+		Usage: "Swarm local http api port",
 	}
 	SwarmNetworkIdFlag = cli.IntFlag{
-		Name:   "bzznetworkid",
-		Usage:  "Network identifier (integer, default 3=swarm testnet)",
-		EnvVar: SWARM_ENV_NETWORK_ID,
+		Name:  "bzznetworkid",
+		Usage: "Network identifier (integer, default 3=swarm testnet)",
 	}
 	SwarmConfigPathFlag = cli.StringFlag{
 		Name:  "bzzconfig",
-		Usage: "DEPRECATED: please use --config path/to/TOML-file",
+		Usage: "Swarm config file path (datadir/bzz)",
 	}
 	SwarmSwapEnabledFlag = cli.BoolFlag{
-		Name:   "swap",
-		Usage:  "Swarm SWAP enabled (default false)",
-		EnvVar: SWARM_ENV_SWAP_ENABLE,
+		Name:  "swap",
+		Usage: "Swarm SWAP enabled (default false)",
 	}
 	SwarmSwapAPIFlag = cli.StringFlag{
-		Name:   "swap-api",
-		Usage:  "URL of the Ethereum API provider to use to settle SWAP payments",
-		EnvVar: SWARM_ENV_SWAP_API,
+		Name:  "swap-api",
+		Usage: "URL of the  Ethereum Quantum API provider to use to settle SWAP payments",
 	}
 	SwarmSyncEnabledFlag = cli.BoolTFlag{
-		Name:   "sync",
-		Usage:  "Swarm Syncing enabled (default true)",
-		EnvVar: SWARM_ENV_SYNC_ENABLE,
+		Name:  "sync",
+		Usage: "Swarm Syncing enabled (default true)",
 	}
 	EnsAPIFlag = cli.StringFlag{
-		Name:   "ens-api",
-		Usage:  "URL of the Ethereum API provider to use for ENS record lookups",
-		EnvVar: SWARM_ENV_ENS_API,
+		Name:  "ens-api",
+		Usage: "URL of the  Ethereum Quantum API provider to use for ENS record lookups",
+		Value: node.DefaultIPCEndpoint("geth"),
 	}
 	EnsAddrFlag = cli.StringFlag{
-		Name:   "ens-addr",
-		Usage:  "ENS contract address (default is detected as testnet or mainnet using --ens-api)",
-		EnvVar: SWARM_ENV_ENS_ADDR,
+		Name:  "ens-addr",
+		Usage: "ENS contract address (default is detected as testnet or mainnet using --ens-api)",
 	}
 	SwarmApiFlag = cli.StringFlag{
 		Name:  "bzzapi",
@@ -146,9 +131,8 @@ var (
 		Usage: "force mime type",
 	}
 	CorsStringFlag = cli.StringFlag{
-		Name:   "corsdomain",
-		Usage:  "Domain on which to send Access-Control-Allow-Origin header (multiple domains can be supplied separated by a ',')",
-		EnvVar: SWARM_ENV_CORS,
+		Name:  "corsdomain",
+		Usage: "Domain on which to send Access-Control-Allow-Origin header (multiple domains can be supplied separated by a ',')",
 	}
 
 	// the following flags are deprecated and should be removed in the future
@@ -156,12 +140,6 @@ var (
 		Name:  "ethapi",
 		Usage: "DEPRECATED: please use --ens-api and --swap-api",
 	}
-)
-
-//declare a few constant error messages, useful for later error check comparisons in test
-var (
-	SWARM_ERR_NO_BZZACCOUNT   = "bzzaccount option is required but not set; check your config file, command line or environment variables"
-	SWARM_ERR_SWAP_SET_NO_API = "SWAP is enabled but --swap-api is not set"
 )
 
 var defaultNodeConfig = node.DefaultConfig
@@ -319,8 +297,6 @@ Remove corrupt entries from a local chunk database.
 DEPRECATED: use 'swarm db clean'.
 `,
 		},
-		// See config.go
-		DumpConfigCommand,
 	}
 	sort.Sort(cli.CommandsByName(app.Commands))
 
@@ -344,7 +320,6 @@ DEPRECATED: use 'swarm db clean'.
 		CorsStringFlag,
 		EnsAPIFlag,
 		EnsAddrFlag,
-		SwarmTomlConfigPathFlag,
 		SwarmConfigPathFlag,
 		SwarmSwapEnabledFlag,
 		SwarmSwapAPIFlag,
@@ -397,32 +372,19 @@ func version(ctx *cli.Context) error {
 }
 
 func bzzd(ctx *cli.Context) error {
-	//build a valid bzzapi.Config from all available sources:
-	//default config, file config, command line and env vars
-	bzzconfig, err := buildConfig(ctx)
-	if err != nil {
-		utils.Fatalf("unable to configure swarm: %v", err)
+	// exit if the deprecated --ethapi flag is set
+	if ctx.GlobalString(DeprecatedEthAPIFlag.Name) != "" {
+		utils.Fatalf("--ethapi is no longer a valid command line flag, please use --ens-api and/or --swap-api.")
 	}
 
 	cfg := defaultNodeConfig
-	//geth only supports --datadir via command line
-	//in order to be consistent within swarm, if we pass --datadir via environment variable
-	//or via config file, we get the same directory for geth and swarm
-	if _, err := os.Stat(bzzconfig.Path); err == nil {
-		cfg.DataDir = bzzconfig.Path
-	}
-	//setup the ethereum node
 	utils.SetNodeConfig(ctx, &cfg)
 	stack, err := node.New(&cfg)
 	if err != nil {
 		utils.Fatalf("can't create node: %v", err)
 	}
-	//a few steps need to be done after the config phase is completed,
-	//due to overriding behavior
-	initSwarmNode(bzzconfig, stack, ctx)
-	//register BZZ as node.Service in the ethereum node
-	registerBzzService(bzzconfig, ctx, stack)
-	//start the node
+
+	registerBzzService(ctx, stack)
 	utils.StartNode(stack)
 
 	go func() {
@@ -434,12 +396,13 @@ func bzzd(ctx *cli.Context) error {
 		stack.Stop()
 	}()
 
+	networkId := ctx.GlobalUint64(SwarmNetworkIdFlag.Name)
 	// Add bootnodes as initial peers.
-	if bzzconfig.BootNodes != "" {
-		bootnodes := strings.Split(bzzconfig.BootNodes, ",")
+	if ctx.GlobalIsSet(utils.BootnodesFlag.Name) {
+		bootnodes := strings.Split(ctx.GlobalString(utils.BootnodesFlag.Name), ",")
 		injectBootnodes(stack.Server(), bootnodes)
 	} else {
-		if bzzconfig.NetworkId == 3 {
+		if networkId == 3 {
 			injectBootnodes(stack.Server(), testbetBootNodes)
 		}
 	}
@@ -480,31 +443,61 @@ func detectEnsAddr(client *rpc.Client) (common.Address, error) {
 	}
 }
 
-func registerBzzService(bzzconfig *bzzapi.Config, ctx *cli.Context, stack *node.Node) {
+func registerBzzService(ctx *cli.Context, stack *node.Node) {
+	prvkey := getAccount(ctx, stack)
 
-	//define the swarm service boot function
+	chbookaddr := common.HexToAddress(ctx.GlobalString(ChequebookAddrFlag.Name))
+	bzzdir := ctx.GlobalString(SwarmConfigPathFlag.Name)
+	if bzzdir == "" {
+		bzzdir = stack.InstanceDir()
+	}
+
+	bzzconfig, err := bzzapi.NewConfig(bzzdir, chbookaddr, prvkey, ctx.GlobalUint64(SwarmNetworkIdFlag.Name))
+	if err != nil {
+		utils.Fatalf("unable to configure swarm: %v", err)
+	}
+	bzzport := ctx.GlobalString(SwarmPortFlag.Name)
+	if len(bzzport) > 0 {
+		bzzconfig.Port = bzzport
+	}
+	if bzzaddr := ctx.GlobalString(SwarmListenAddrFlag.Name); bzzaddr != "" {
+		bzzconfig.ListenAddr = bzzaddr
+	}
+	swapEnabled := ctx.GlobalBool(SwarmSwapEnabledFlag.Name)
+	syncEnabled := ctx.GlobalBoolT(SwarmSyncEnabledFlag.Name)
+
+	swapapi := ctx.GlobalString(SwarmSwapAPIFlag.Name)
+	if swapEnabled && swapapi == "" {
+		utils.Fatalf("SWAP is enabled but --swap-api is not set")
+	}
+
+	ensapi := ctx.GlobalString(EnsAPIFlag.Name)
+	ensAddr := ctx.GlobalString(EnsAddrFlag.Name)
+
+	cors := ctx.GlobalString(CorsStringFlag.Name)
+
 	boot := func(ctx *node.ServiceContext) (node.Service, error) {
 		var swapClient *ethclient.Client
-		var err error
-		if bzzconfig.SwapApi != "" {
-			log.Info("connecting to SWAP API", "url", bzzconfig.SwapApi)
-			swapClient, err = ethclient.Dial(bzzconfig.SwapApi)
+		if swapapi != "" {
+			log.Info("connecting to SWAP API", "url", swapapi)
+			swapClient, err = ethclient.Dial(swapapi)
 			if err != nil {
-				return nil, fmt.Errorf("error connecting to SWAP API %s: %s", bzzconfig.SwapApi, err)
+				return nil, fmt.Errorf("error connecting to SWAP API %s: %s", swapapi, err)
 			}
 		}
 
 		var ensClient *ethclient.Client
-		if bzzconfig.EnsApi != "" {
-			log.Info("connecting to ENS API", "url", bzzconfig.EnsApi)
-			client, err := rpc.Dial(bzzconfig.EnsApi)
+		if ensapi != "" {
+			log.Info("connecting to ENS API", "url", ensapi)
+			client, err := rpc.Dial(ensapi)
 			if err != nil {
-				return nil, fmt.Errorf("error connecting to ENS API %s: %s", bzzconfig.EnsApi, err)
+				return nil, fmt.Errorf("error connecting to ENS API %s: %s", ensapi, err)
 			}
 			ensClient = ethclient.NewClient(client)
 
-			//no ENS root address set yet
-			if bzzconfig.EnsRoot == (common.Address{}) {
+			if ensAddr != "" {
+				bzzconfig.EnsRoot = common.HexToAddress(ensAddr)
+			} else {
 				ensAddr, err := detectEnsAddr(client)
 				if err == nil {
 					bzzconfig.EnsRoot = ensAddr
@@ -514,21 +507,21 @@ func registerBzzService(bzzconfig *bzzapi.Config, ctx *cli.Context, stack *node.
 			}
 		}
 
-		return swarm.NewSwarm(ctx, swapClient, ensClient, bzzconfig, bzzconfig.SwapEnabled, bzzconfig.SyncEnabled, bzzconfig.Cors)
+		return swarm.NewSwarm(ctx, swapClient, ensClient, bzzconfig, swapEnabled, syncEnabled, cors)
 	}
-	//register within the ethereum node
 	if err := stack.Register(boot); err != nil {
 		utils.Fatalf("Failed to register the Swarm service: %v", err)
 	}
 }
 
-func getAccount(bzzaccount string, ctx *cli.Context, stack *node.Node) *ecdsa.PrivateKey {
-	//an account is mandatory
-	if bzzaccount == "" {
-		utils.Fatalf(SWARM_ERR_NO_BZZACCOUNT)
+func getAccount(ctx *cli.Context, stack *node.Node) *ecdsa.PrivateKey {
+	keyid := ctx.GlobalString(SwarmAccountFlag.Name)
+
+	if keyid == "" {
+		utils.Fatalf("Option %q is required", SwarmAccountFlag.Name)
 	}
 	// Try to load the arg as a hex key file.
-	if key, err := crypto.LoadECDSA(bzzaccount); err == nil {
+	if key, err := crypto.LoadECDSA(keyid); err == nil {
 		log.Info("Swarm account key loaded", "address", crypto.PubkeyToAddress(key.PublicKey))
 		return key
 	}
@@ -536,7 +529,7 @@ func getAccount(bzzaccount string, ctx *cli.Context, stack *node.Node) *ecdsa.Pr
 	am := stack.AccountManager()
 	ks := am.Backends(keystore.KeyStoreType)[0].(*keystore.KeyStore)
 
-	return decryptStoreAccount(ks, bzzaccount, utils.MakePasswordList(ctx))
+	return decryptStoreAccount(ks, keyid, utils.MakePasswordList(ctx))
 }
 
 func decryptStoreAccount(ks *keystore.KeyStore, account string, passwords []string) *ecdsa.PrivateKey {
@@ -554,7 +547,7 @@ func decryptStoreAccount(ks *keystore.KeyStore, account string, passwords []stri
 		utils.Fatalf("Can't find swarm account key %s", account)
 	}
 	if err != nil {
-		utils.Fatalf("Can't find swarm account key: %v - Is the provided bzzaccount(%s) from the right datadir/Path?", err, account)
+		utils.Fatalf("Can't find swarm account key: %v", err)
 	}
 	keyjson, err := ioutil.ReadFile(a.URL.Path)
 	if err != nil {

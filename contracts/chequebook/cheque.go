@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package chequebook package wraps the 'chequebook' Ethereum smart contract.
+// Package chequebook package wraps the 'chequebook'  Ethereum Quantum smart contract.
 //
 // The functions in this package allow using chequebook for
 // issuing, receiving, verifying cheques in ether; (auto)cashing cheques in ether
@@ -36,14 +36,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/contracts/chequebook/contract"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/swarm/services/swap/swap"
+	"github.com/ethereumq/go-ethereumq/accounts/abi/bind"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/contracts/chequebook/contract"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/swarm/services/swap/swap"
 )
 
 // TODO(zelig): watch peer solvency and notify of bouncing cheques
@@ -620,7 +620,7 @@ func sig2vrs(sig []byte) (v byte, r, s [32]byte) {
 	return
 }
 
-// Cash cashes the cheque by sending an Ethereum transaction.
+// Cash cashes the cheque by sending an  Ethereum Quantum transaction.
 func (self *Cheque) Cash(session *contract.ChequebookSession) (string, error) {
 	v, r, s := sig2vrs(self.Sig)
 	tx, err := session.Cash(self.Beneficiary, self.Amount, v, r, s)

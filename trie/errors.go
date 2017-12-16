@@ -19,7 +19,7 @@ package trie
 import (
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereumq/go-ethereumq/common"
 )
 
 // MissingNodeError is returned by the trie functions (TryGet, TryUpdate, TryDelete)

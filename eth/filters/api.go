@@ -25,12 +25,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 var (
@@ -49,7 +49,7 @@ type filter struct {
 }
 
 // PublicFilterAPI offers support to create and manage filters. This will allow external clients to retrieve various
-// information related to the Ethereum protocol such als blocks, transactions and logs.
+// information related to the  Ethereum Quantum protocol such als blocks, transactions and logs.
 type PublicFilterAPI struct {
 	backend   Backend
 	mux       *event.TypeMux

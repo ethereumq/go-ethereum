@@ -28,23 +28,22 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/log"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
 // config contains all the configurations needed by puppeth that should be saved
 // between sessions.
 type config struct {
-	path      string   // File containing the configuration values
-	bootFull  []string // Bootnodes to always connect to by full nodes
-	bootLight []string // Bootnodes to always connect to by light nodes
-	ethstats  string   // Ethstats settings to cache for node deploys
+	path      string        // File containing the configuration values
+	genesis   *core.Genesis // Genesis block to cache for node deploys
+	bootFull  []string      // Bootnodes to always connect to by full nodes
+	bootLight []string      // Bootnodes to always connect to by light nodes
+	ethstats  string        // Ethstats settings to cache for node deploys
 
-	Genesis *core.Genesis     `json:"genesis,omitempty"` // Genesis block to cache for node deploys
 	Servers map[string][]byte `json:"servers,omitempty"`
 }
 
@@ -74,10 +73,9 @@ type wizard struct {
 	conf    config // Configurations from previous runs
 
 	servers  map[string]*sshClient // SSH connections to servers to administer
-	services map[string][]string   // Ethereum services known to be running on servers
+	services map[string][]string   //  Ethereum Quantum services known to be running on servers
 
-	in   *bufio.Reader // Wrapper around stdin to allow reading user input
-	lock sync.Mutex    // Lock to protect configs during concurrent service discovery
+	in *bufio.Reader // Wrapper around stdin to allow reading user input
 }
 
 // read reads a single line from stdin, trimming if from spaces.
@@ -241,7 +239,7 @@ func (w *wizard) readPassword() string {
 }
 
 // readAddress reads a single line from stdin, trimming if from spaces and converts
-// it to an Ethereum address.
+// it to an  Ethereum Quantum address.
 func (w *wizard) readAddress() *common.Address {
 	for {
 		// Read the address from the user
@@ -265,7 +263,7 @@ func (w *wizard) readAddress() *common.Address {
 }
 
 // readDefaultAddress reads a single line from stdin, trimming if from spaces and
-// converts it to an Ethereum address. If an empty line is entered, the default
+// converts it to an  Ethereum Quantum address. If an empty line is entered, the default
 // value is returned.
 func (w *wizard) readDefaultAddress(def common.Address) common.Address {
 	for {

@@ -22,8 +22,8 @@ import (
 	"io"
 	"sort"
 
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/internal/debug"
+	"github.com/ethereumq/go-ethereumq/cmd/utils"
+	"github.com/ethereumq/go-ethereumq/internal/debug"
 	"gopkg.in/urfave/cli.v1"
 	"strings"
 )
@@ -72,7 +72,6 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.NoUSBFlag,
 			utils.NetworkIdFlag,
 			utils.TestnetFlag,
-			utils.RinkebyFlag,
 			utils.SyncModeFlag,
 			utils.EthStatsURLFlag,
 			utils.IdentityFlag,

@@ -27,12 +27,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/logger"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/whisper"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/logger"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/nat"
+	"github.com/ethereumq/go-ethereumq/whisper"
 )
 
 func main() {
@@ -47,7 +47,7 @@ func main() {
 	name := common.MakeName("whisper-go", "1.0")
 	shh := whisper.New()
 
-	// Create an Ethereum peer to communicate through
+	// Create an  Ethereum Quantum peer to communicate through
 	server := p2p.Server{
 		PrivateKey: key,
 		MaxPeers:   10,
@@ -56,9 +56,9 @@ func main() {
 		ListenAddr: ":30300",
 		NAT:        nat.Any(),
 	}
-	fmt.Println("Starting Ethereum peer...")
+	fmt.Println("Starting  Ethereum Quantum peer...")
 	if err := server.Start(); err != nil {
-		fmt.Printf("Failed to start Ethereum peer: %v.\n", err)
+		fmt.Printf("Failed to start  Ethereum Quantum peer: %v.\n", err)
 		os.Exit(1)
 	}
 

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light Ethereum Subprotocol.
+// Package les implements the Light  Ethereum Quantum Subprotocol.
 package les
 
 import (
@@ -26,13 +26,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/les/flowcontrol"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/les/flowcontrol"
+	"github.com/ethereumq/go-ethereumq/light"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/rlp"
 )
 
 var (
@@ -511,7 +511,7 @@ type peerSetNotify interface {
 }
 
 // peerSet represents the collection of active peers currently participating in
-// the Light Ethereum sub-protocol.
+// the Light  Ethereum Quantum sub-protocol.
 type peerSet struct {
 	peers      map[string]*peer
 	lock       sync.RWMutex

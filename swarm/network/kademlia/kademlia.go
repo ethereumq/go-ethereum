@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/log"
 )
 
 const (
@@ -52,7 +52,7 @@ type KadParams struct {
 	ConnRetryExp         int
 }
 
-func NewDefaultKadParams() *KadParams {
+func NewKadParams() *KadParams {
 	return &KadParams{
 		MaxProx:              maxProx,
 		ProxBinSize:          proxBinSize,

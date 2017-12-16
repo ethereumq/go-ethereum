@@ -27,8 +27,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/crypto"
 )
 
 func tmpKeyStoreIface(t *testing.T, encrypted bool) (dir string, ks keyStore) {
@@ -121,7 +121,7 @@ func TestImportPreSaleKey(t *testing.T) {
 	}
 }
 
-// Test and utils for the key store tests in the Ethereum JSON tests;
+// Test and utils for the key store tests in the  Ethereum Quantum JSON tests;
 // testdataKeyStoreTests/basic_tests.json
 type KeyStoreTestV3 struct {
 	Json     encryptedKeyJSONV3

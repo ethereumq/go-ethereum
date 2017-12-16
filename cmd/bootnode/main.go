@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
-// bootnode runs a bootstrap node for the Ethereum Discovery Protocol.
+// bootnode runs a bootstrap node for the  Ethereum Quantum Discovery Protocol.
 package main
 
 import (
@@ -23,18 +23,18 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/p2p/discv5"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/p2p/netutil"
+	"github.com/ethereumq/go-ethereumq/cmd/utils"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/p2p/discv5"
+	"github.com/ethereumq/go-ethereumq/p2p/nat"
+	"github.com/ethereumq/go-ethereumq/p2p/netutil"
 )
 
 func main() {
 	var (
-		listenAddr  = flag.String("addr", ":30301", "listen address")
+		listenAddr  = flag.String("addr", ":40301", "listen address")
 		genKey      = flag.String("genkey", "", "generate a node key")
 		writeAddr   = flag.Bool("writeaddress", false, "write out the node's pubkey hash and quit")
 		nodeKeyFile = flag.String("nodekey", "", "private key filename")

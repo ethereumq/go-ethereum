@@ -21,9 +21,9 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/ethdb"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/ethdb"
 )
 
 var dumper = spew.ConfigState{Indent: "    "}
@@ -79,10 +79,7 @@ func TestStorageRangeAt(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		result, err := storageRangeAt(state.StorageTrie(addr), test.start, test.limit)
-		if err != nil {
-			t.Error(err)
-		}
+		result := storageRangeAt(state.StorageTrie(addr), test.start, test.limit)
 		if !reflect.DeepEqual(result, test.want) {
 			t.Fatalf("wrong result for range 0x%x.., limit %d:\ngot %s\nwant %s",
 				test.start, test.limit, dumper.Sdump(result), dumper.Sdump(&test.want))

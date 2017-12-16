@@ -20,26 +20,24 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereumq/go-ethereumq/common"
 )
 
 var (
-	MainnetGenesisHash = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3") // Mainnet genesis hash to enforce below configs on
-	TestnetGenesisHash = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d") // Testnet genesis hash to enforce below configs on
+	MainnetGenesisHash = common.HexToHash("0xf4d86090f217c8443c0d0f2a11b5f8a5606d9269a652a6e739c658431b1bb8fc") // Mainnet genesis hash to enforce below configs on
+	TestnetGenesisHash = common.HexToHash("0x6075d6aedd7dbb1d98523e7d94a19b8ad7ebef92553f84e3201d055c6e40bf3a") // Testnet genesis hash to enforce below configs on
 )
 
 var (
 	// MainnetChainConfig is the chain parameters to run a node on the main network.
 	MainnetChainConfig = &ChainConfig{
 		ChainId:        big.NewInt(1),
-		HomesteadBlock: big.NewInt(1150000),
-		DAOForkBlock:   big.NewInt(1920000),
-		DAOForkSupport: true,
-		EIP150Block:    big.NewInt(2463000),
-		EIP150Hash:     common.HexToHash("0x2086799aeebeae135c246c65021c82b4e15a2c451340993aacfd2751886514f0"),
-		EIP155Block:    big.NewInt(2675000),
-		EIP158Block:    big.NewInt(2675000),
-		ByzantiumBlock: big.NewInt(4370000),
+		HomesteadBlock: big.NewInt(0),
+		EIP150Block:    big.NewInt(0),
+		EIP150Hash:     common.HexToHash("0"),
+		EIP155Block:    big.NewInt(0),
+		EIP158Block:    big.NewInt(0),
+		ByzantiumBlock: big.NewInt(0),
 
 		Ethash: new(EthashConfig),
 	}
@@ -48,50 +46,29 @@ var (
 	TestnetChainConfig = &ChainConfig{
 		ChainId:        big.NewInt(3),
 		HomesteadBlock: big.NewInt(0),
-		DAOForkBlock:   nil,
-		DAOForkSupport: true,
 		EIP150Block:    big.NewInt(0),
-		EIP150Hash:     common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d"),
-		EIP155Block:    big.NewInt(10),
-		EIP158Block:    big.NewInt(10),
-		ByzantiumBlock: big.NewInt(1700000),
+		EIP150Hash:     common.HexToHash("0"),
+		EIP155Block:    big.NewInt(0),
+		EIP158Block:    big.NewInt(0),
+		ByzantiumBlock: big.NewInt(0),
 
 		Ethash: new(EthashConfig),
 	}
-
-	// RinkebyChainConfig contains the chain parameters to run a node on the Rinkeby test network.
-	RinkebyChainConfig = &ChainConfig{
-		ChainId:        big.NewInt(4),
-		HomesteadBlock: big.NewInt(1),
-		DAOForkBlock:   nil,
-		DAOForkSupport: true,
-		EIP150Block:    big.NewInt(2),
-		EIP150Hash:     common.HexToHash("0x9b095b36c15eaf13044373aef8ee0bd3a382a5abb92e402afa44b8249c3a90e9"),
-		EIP155Block:    big.NewInt(3),
-		EIP158Block:    big.NewInt(3),
-		ByzantiumBlock: big.NewInt(1035301),
-
-		Clique: &CliqueConfig{
-			Period: 15,
-			Epoch:  30000,
-		},
-	}
-
 	// AllEthashProtocolChanges contains every protocol change (EIPs) introduced
-	// and accepted by the Ethereum core developers into the Ethash consensus.
+	// and accepted by the  Ethereum Quantum core developers into the Ethash consensus.
 	//
 	// This configuration is intentionally not using keyed fields to force anyone
 	// adding flags to the config to also have to set these fields.
-	AllEthashProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), new(EthashConfig), nil}
+	AllEthashProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), new(EthashConfig), nil}
 
 	// AllCliqueProtocolChanges contains every protocol change (EIPs) introduced
-	// and accepted by the Ethereum core developers into the Clique consensus.
+	// and accepted by the  Ethereum Quantum core developers into the Clique consensus.
 	//
 	// This configuration is intentionally not using keyed fields to force anyone
 	// adding flags to the config to also have to set these fields.
-	AllCliqueProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), nil, &CliqueConfig{Period: 0, Epoch: 30000}}
+	AllCliqueProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0),  big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), nil, &CliqueConfig{Period: 0, Epoch: 30000}}
 
-	TestChainConfig = &ChainConfig{big.NewInt(1), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), new(EthashConfig), nil}
+	TestChainConfig = &ChainConfig{big.NewInt(1), big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), new(EthashConfig), nil}
 	TestRules       = TestChainConfig.Rules(new(big.Int))
 )
 
@@ -104,11 +81,7 @@ type ChainConfig struct {
 	ChainId *big.Int `json:"chainId"` // Chain id identifies the current chain and is used for replay protection
 
 	HomesteadBlock *big.Int `json:"homesteadBlock,omitempty"` // Homestead switch block (nil = no fork, 0 = already homestead)
-
-	DAOForkBlock   *big.Int `json:"daoForkBlock,omitempty"`   // TheDAO hard-fork switch block (nil = no fork)
-	DAOForkSupport bool     `json:"daoForkSupport,omitempty"` // Whether the nodes supports or opposes the DAO hard-fork
-
-	// EIP150 implements the Gas price changes (https://github.com/ethereum/EIPs/issues/150)
+	// EIP150 implements the Gas price changes (https://github.com/ethereumq/EIPs/issues/150)
 	EIP150Block *big.Int    `json:"eip150Block,omitempty"` // EIP150 HF block (nil = no fork)
 	EIP150Hash  common.Hash `json:"eip150Hash,omitempty"`  // EIP150 HF hash (needed for header only clients as only gas pricing changed)
 
@@ -152,11 +125,9 @@ func (c *ChainConfig) String() string {
 	default:
 		engine = "unknown"
 	}
-	return fmt.Sprintf("{ChainID: %v Homestead: %v DAO: %v DAOSupport: %v EIP150: %v EIP155: %v EIP158: %v Byzantium: %v Engine: %v}",
+	return fmt.Sprintf("{ChainID: %v Homestead: %v  EIP150: %v EIP155: %v EIP158: %v Byzantium: %v Engine: %v}",
 		c.ChainId,
 		c.HomesteadBlock,
-		c.DAOForkBlock,
-		c.DAOForkSupport,
 		c.EIP150Block,
 		c.EIP155Block,
 		c.EIP158Block,
@@ -170,10 +141,6 @@ func (c *ChainConfig) IsHomestead(num *big.Int) bool {
 	return isForked(c.HomesteadBlock, num)
 }
 
-// IsDAO returns whether num is either equal to the DAO fork block or greater.
-func (c *ChainConfig) IsDAOFork(num *big.Int) bool {
-	return isForked(c.DAOForkBlock, num)
-}
 
 func (c *ChainConfig) IsEIP150(num *big.Int) bool {
 	return isForked(c.EIP150Block, num)
@@ -230,12 +197,7 @@ func (c *ChainConfig) checkCompatible(newcfg *ChainConfig, head *big.Int) *Confi
 	if isForkIncompatible(c.HomesteadBlock, newcfg.HomesteadBlock, head) {
 		return newCompatError("Homestead fork block", c.HomesteadBlock, newcfg.HomesteadBlock)
 	}
-	if isForkIncompatible(c.DAOForkBlock, newcfg.DAOForkBlock, head) {
-		return newCompatError("DAO fork block", c.DAOForkBlock, newcfg.DAOForkBlock)
-	}
-	if c.IsDAOFork(head) && c.DAOForkSupport != newcfg.DAOForkSupport {
-		return newCompatError("DAO fork support flag", c.DAOForkBlock, newcfg.DAOForkBlock)
-	}
+
 	if isForkIncompatible(c.EIP150Block, newcfg.EIP150Block, head) {
 		return newCompatError("EIP150 fork block", c.EIP150Block, newcfg.EIP150Block)
 	}

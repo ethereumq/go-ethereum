@@ -23,10 +23,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/accounts/keystore"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/crypto"
 )
 
 const (
@@ -210,7 +210,7 @@ func (ks *KeyStore) ImportECDSAKey(key []byte, passphrase string) (account *Acco
 	return &Account{acc}, nil
 }
 
-// ImportPreSaleKey decrypts the given Ethereum presale wallet and stores
+// ImportPreSaleKey decrypts the given  Ethereum Quantum presale wallet and stores
 // a key file in the key directory. The key file is encrypted with the same passphrase.
 func (ks *KeyStore) ImportPreSaleKey(keyJSON []byte, passphrase string) (ccount *Account, _ error) {
 	account, err := ks.keystore.ImportPreSaleKey(common.CopyBytes(keyJSON), passphrase)

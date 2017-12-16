@@ -25,7 +25,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereumq/go-ethereumq/common"
 )
 
 type unpackTest struct {
@@ -368,11 +368,11 @@ func TestUnmarshal(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	} else {
-		if !bytes.Equal(p0, p0Exp) {
+		if bytes.Compare(p0, p0Exp) != 0 {
 			t.Errorf("unexpected value unpacked: want %x, got %x", p0Exp, p0)
 		}
 
-		if !bytes.Equal(p1[:], p1Exp) {
+		if bytes.Compare(p1[:], p1Exp) != 0 {
 			t.Errorf("unexpected value unpacked: want %x, got %x", p1Exp, p1)
 		}
 	}

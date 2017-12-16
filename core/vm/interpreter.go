@@ -20,10 +20,10 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/math"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // Config are the configuration options for the Interpreter
@@ -49,7 +49,7 @@ type Config struct {
 	JumpTable [256]operation
 }
 
-// Interpreter is used to run Ethereum based contracts and will utilise the
+// Interpreter is used to run  Ethereum Quantum based contracts and will utilise the
 // passed evmironment to query external sources for state information.
 // The Interpreter will run the byte code VM or JIT VM based on the passed
 // configuration.
@@ -138,15 +138,16 @@ func (in *Interpreter) Run(snapshot int, contract *Contract, input []byte) (ret 
 		pc   = uint64(0) // program counter
 		cost uint64
 		// copies used by tracer
-		pcCopy  uint64 // needed for the deferred Tracer
-		gasCopy uint64 // for Tracer to log gas remaining before execution
-		logged  bool   // deferred Tracer should ignore already logged steps
+		stackCopy = newstack() // stackCopy needed for Tracer since stack is mutated by 63/64 gas rule
+		pcCopy    uint64       // needed for the deferred Tracer
+		gasCopy   uint64       // for Tracer to log gas remaining before execution
+		logged    bool         // deferred Tracer should ignore already logged steps
 	)
 	contract.Input = input
 
 	defer func() {
 		if err != nil && !logged && in.cfg.Debug {
-			in.cfg.Tracer.CaptureState(in.evm, pcCopy, op, gasCopy, cost, mem, stack, contract, in.evm.depth, err)
+			in.cfg.Tracer.CaptureState(in.evm, pcCopy, op, gasCopy, cost, mem, stackCopy, contract, in.evm.depth, err)
 		}
 	}()
 
@@ -155,14 +156,21 @@ func (in *Interpreter) Run(snapshot int, contract *Contract, input []byte) (ret 
 	// the execution of one of the operations or until the done flag is set by the
 	// parent context.
 	for atomic.LoadInt32(&in.evm.abort) == 0 {
+		// Get the memory location of pc
+		op = contract.GetOp(pc)
+
 		if in.cfg.Debug {
-			// Capture pre-execution values for tracing.
-			logged, pcCopy, gasCopy = false, pc, contract.Gas
+			logged = false
+			pcCopy = pc
+			gasCopy = contract.Gas
+			stackCopy = newstack()
+			for _, val := range stack.data {
+				stackCopy.push(val)
+			}
 		}
 
-		// Get the operation from the jump table and validate the stack to ensure there are
-		// enough stack items available to perform the operation.
-		op = contract.GetOp(pc)
+		// Get the operation from the jump table matching the opcode and validate the
+		// stack and make sure there enough stack items available to perform the operation
 		operation := in.cfg.JumpTable[op]
 		if !operation.valid {
 			return nil, fmt.Errorf("invalid opcode 0x%x", int(op))
@@ -203,7 +211,7 @@ func (in *Interpreter) Run(snapshot int, contract *Contract, input []byte) (ret 
 		}
 
 		if in.cfg.Debug {
-			in.cfg.Tracer.CaptureState(in.evm, pc, op, gasCopy, cost, mem, stack, contract, in.evm.depth, err)
+			in.cfg.Tracer.CaptureState(in.evm, pc, op, gasCopy, cost, mem, stackCopy, contract, in.evm.depth, err)
 			logged = true
 		}
 

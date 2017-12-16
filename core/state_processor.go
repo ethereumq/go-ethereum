@@ -19,14 +19,13 @@ package core
 import (
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // StateProcessor is a basic Processor, which takes care of transitioning
@@ -48,7 +47,7 @@ func NewStateProcessor(config *params.ChainConfig, bc *BlockChain, engine consen
 	}
 }
 
-// Process processes the state changes according to the Ethereum rules by running
+// Process processes the state changes according to the  Ethereum Quantum rules by running
 // the transaction messages using the statedb and applying any rewards to both
 // the processor (coinbase) and any included uncles.
 //
@@ -63,10 +62,6 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 		allLogs      []*types.Log
 		gp           = new(GasPool).AddGas(block.GasLimit())
 	)
-	// Mutate the the block and state according to any hard-fork specs
-	if p.config.DAOForkSupport && p.config.DAOForkBlock != nil && p.config.DAOForkBlock.Cmp(block.Number()) == 0 {
-		misc.ApplyDAOHardFork(statedb)
-	}
 	// Iterate over and process the individual transactions
 	for i, tx := range block.Transactions() {
 		statedb.Prepare(tx.Hash(), block.Hash(), i)

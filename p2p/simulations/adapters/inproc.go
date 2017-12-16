@@ -23,12 +23,11 @@ import (
 	"net"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 // SimAdapter is a NodeAdapter which creates in-memory simulation nodes and
@@ -83,8 +82,7 @@ func (s *SimAdapter) NewNode(config *NodeConfig) (Node, error) {
 			Dialer:          s,
 			EnableMsgEvents: true,
 		},
-		NoUSB:  true,
-		Logger: log.New("node.id", id.String()),
+		NoUSB: true,
 	})
 	if err != nil {
 		return nil, err
@@ -160,7 +158,7 @@ func (self *SimNode) Addr() []byte {
 
 // Node returns a discover.Node representing the SimNode
 func (self *SimNode) Node() *discover.Node {
-	return discover.NewNode(self.ID, net.IP{127, 0, 0, 1}, 30303, 30303)
+	return discover.NewNode(self.ID, net.IP{127, 0, 0, 1}, 40303, 40303)
 }
 
 // Client returns an rpc.Client which can be used to communicate with the

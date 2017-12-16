@@ -21,12 +21,12 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // Config is a basic type specifying certain configuration flags for running
@@ -55,8 +55,6 @@ func setDefaults(cfg *Config) {
 		cfg.ChainConfig = &params.ChainConfig{
 			ChainId:        big.NewInt(1),
 			HomesteadBlock: new(big.Int),
-			DAOForkBlock:   new(big.Int),
-			DAOForkSupport: false,
 			EIP150Block:    new(big.Int),
 			EIP155Block:    new(big.Int),
 			EIP158Block:    new(big.Int),

@@ -20,8 +20,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
 )
 
 type testPeer struct {

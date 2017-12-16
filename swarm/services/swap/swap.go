@@ -26,14 +26,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/contracts/chequebook"
-	"github.com/ethereum/go-ethereum/contracts/chequebook/contract"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/swarm/services/swap/swap"
+	"github.com/ethereumq/go-ethereumq/accounts/abi/bind"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/contracts/chequebook"
+	"github.com/ethereumq/go-ethereumq/contracts/chequebook/contract"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/swarm/services/swap/swap"
 )
 
 // SwAP       Swarm Accounting Protocol with
@@ -80,10 +80,17 @@ type PayProfile struct {
 	lock        sync.RWMutex
 }
 
-//create params with default values
-func NewDefaultSwapParams() *SwapParams {
+func DefaultSwapParams(contract common.Address, prvkey *ecdsa.PrivateKey) *SwapParams {
+	pubkey := &prvkey.PublicKey
 	return &SwapParams{
-		PayProfile: &PayProfile{},
+		PayProfile: &PayProfile{
+			PublicKey:   common.ToHex(crypto.FromECDSAPub(pubkey)),
+			Contract:    contract,
+			Beneficiary: crypto.PubkeyToAddress(*pubkey),
+			privateKey:  prvkey,
+			publicKey:   pubkey,
+			owner:       crypto.PubkeyToAddress(*pubkey),
+		},
 		Params: &swap.Params{
 			Profile: &swap.Profile{
 				BuyAt:  buyAt,
@@ -99,21 +106,6 @@ func NewDefaultSwapParams() *SwapParams {
 				AutoDepositBuffer:    autoDepositBuffer,
 			},
 		},
-	}
-}
-
-//this can only finally be set after all config options (file, cmd line, env vars)
-//have been evaluated
-func (self *SwapParams) Init(contract common.Address, prvkey *ecdsa.PrivateKey) {
-	pubkey := &prvkey.PublicKey
-
-	self.PayProfile = &PayProfile{
-		PublicKey:   common.ToHex(crypto.FromECDSAPub(pubkey)),
-		Contract:    contract,
-		Beneficiary: crypto.PubkeyToAddress(*pubkey),
-		privateKey:  prvkey,
-		publicKey:   pubkey,
-		owner:       crypto.PubkeyToAddress(*pubkey),
 	}
 }
 

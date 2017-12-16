@@ -20,19 +20,19 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/console"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/accounts/keystore"
+	"github.com/ethereumq/go-ethereumq/cmd/utils"
+	"github.com/ethereumq/go-ethereumq/console"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
 	"gopkg.in/urfave/cli.v1"
 )
 
 var (
 	walletCommand = cli.Command{
 		Name:      "wallet",
-		Usage:     "Manage Ethereum presale wallets",
+		Usage:     "Manage  Ethereum Quantum presale wallets",
 		ArgsUsage: "",
 		Category:  "ACCOUNT COMMANDS",
 		Description: `
@@ -45,7 +45,7 @@ passwordfile as argument containing the wallet password in plaintext.`,
 			{
 
 				Name:      "import",
-				Usage:     "Import Ethereum presale wallet",
+				Usage:     "Import  Ethereum Quantum presale wallet",
 				ArgsUsage: "<keyFile>",
 				Action:    utils.MigrateFlags(importWallet),
 				Category:  "ACCOUNT COMMANDS",

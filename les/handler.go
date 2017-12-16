@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light Ethereum Subprotocol.
+// Package les implements the Light  Ethereum Quantum Subprotocol.
 package les
 
 import (
@@ -27,23 +27,23 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/p2p/discv5"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/light"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/p2p/discv5"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/trie"
 )
 
 const (
@@ -126,7 +126,7 @@ type ProtocolManager struct {
 	wg *sync.WaitGroup
 }
 
-// NewProtocolManager returns a new ethereum sub protocol manager. The Ethereum sub protocol manages peers capable
+// NewProtocolManager returns a new ethereum sub protocol manager. The  Ethereum Quantum sub protocol manages peers capable
 // with the ethereum network.
 func NewProtocolManager(chainConfig *params.ChainConfig, lightSync bool, protocolVersions []uint, networkId uint64, mux *event.TypeMux, engine consensus.Engine, peers *peerSet, blockchain BlockChain, txpool txPool, chainDb ethdb.Database, odr *LesOdr, txrelay *LesTxRelay, quitSync chan struct{}, wg *sync.WaitGroup) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
@@ -232,7 +232,7 @@ func (pm *ProtocolManager) Start() {
 func (pm *ProtocolManager) Stop() {
 	// Showing a log message. During download / process this could actually
 	// take between 5 to 10 seconds and therefor feedback is required.
-	log.Info("Stopping light Ethereum protocol")
+	log.Info("Stopping light  Ethereum Quantum protocol")
 
 	// Quit the sync loop.
 	// After this send has completed, no new peers will be accepted.
@@ -249,7 +249,7 @@ func (pm *ProtocolManager) Stop() {
 	// Wait for any process action
 	pm.wg.Wait()
 
-	log.Info("Light Ethereum protocol stopped")
+	log.Info("Light  Ethereum Quantum protocol stopped")
 }
 
 func (pm *ProtocolManager) newPeer(pv int, nv uint64, p *p2p.Peer, rw p2p.MsgReadWriter) *peer {
@@ -259,13 +259,13 @@ func (pm *ProtocolManager) newPeer(pv int, nv uint64, p *p2p.Peer, rw p2p.MsgRea
 // handle is the callback invoked to manage the life cycle of a les peer. When
 // this function terminates, the peer is disconnected.
 func (pm *ProtocolManager) handle(p *peer) error {
-	p.Log().Debug("Light Ethereum peer connected", "name", p.Name())
+	p.Log().Debug("Light  Ethereum Quantum peer connected", "name", p.Name())
 
 	// Execute the LES handshake
 	td, head, genesis := pm.blockchain.Status()
 	headNum := core.GetBlockNumber(pm.chainDb, head)
 	if err := p.Handshake(td, head, headNum, genesis, pm.server); err != nil {
-		p.Log().Debug("Light Ethereum handshake failed", "err", err)
+		p.Log().Debug("Light  Ethereum Quantum handshake failed", "err", err)
 		return err
 	}
 	if rw, ok := p.rw.(*meteredMsgReadWriter); ok {
@@ -273,7 +273,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	}
 	// Register the peer locally
 	if err := pm.peers.Register(p); err != nil {
-		p.Log().Error("Light Ethereum peer registration failed", "err", err)
+		p.Log().Error("Light  Ethereum Quantum peer registration failed", "err", err)
 		return err
 	}
 	defer func() {
@@ -313,7 +313,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	// main loop. handle incoming messages.
 	for {
 		if err := pm.handleMsg(p); err != nil {
-			p.Log().Debug("Light Ethereum message handling failed", "err", err)
+			p.Log().Debug("Light  Ethereum Quantum message handling failed", "err", err)
 			return err
 		}
 	}
@@ -329,7 +329,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 	if err != nil {
 		return err
 	}
-	p.Log().Trace("Light Ethereum message arrived", "code", msg.Code, "bytes", msg.Size)
+	p.Log().Trace("Light  Ethereum Quantum message arrived", "code", msg.Code, "bytes", msg.Size)
 
 	costs := p.fcCosts[msg.Code]
 	reject := func(reqCnt, maxCnt uint64) bool {

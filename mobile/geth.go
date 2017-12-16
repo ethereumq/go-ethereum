@@ -24,17 +24,17 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/ethstats"
-	"github.com/ethereum/go-ethereum/les"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/params"
-	whisper "github.com/ethereum/go-ethereum/whisper/whisperv5"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/ethclient"
+	"github.com/ethereumq/go-ethereumq/ethstats"
+	"github.com/ethereumq/go-ethereumq/les"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/nat"
+	"github.com/ethereumq/go-ethereumq/params"
+	whisper "github.com/ethereumq/go-ethereumq/whisper/whisperv5"
 )
 
 // NodeConfig represents the collection of configuration values to fine tune the Geth
@@ -49,10 +49,10 @@ type NodeConfig struct {
 	// set to zero, then only the configured static and trusted peers can connect.
 	MaxPeers int
 
-	// EthereumEnabled specifies whether the node should run the Ethereum protocol.
+	// EthereumEnabled specifies whether the node should run the  Ethereum Quantum protocol.
 	EthereumEnabled bool
 
-	// EthereumNetworkID is the network identifier used by the Ethereum protocol to
+	// EthereumNetworkID is the network identifier used by the  Ethereum Quantum protocol to
 	// decide if remote peers should be accepted or not.
 	EthereumNetworkID int64 // uint64 in truth, but Java can't handle that...
 
@@ -90,7 +90,7 @@ func NewNodeConfig() *NodeConfig {
 	return &config
 }
 
-// Node represents a Geth Ethereum node instance.
+// Node represents a Geth  Ethereum Quantum node instance.
 type Node struct {
 	node *node.Node
 }
@@ -143,7 +143,7 @@ func NewNode(datadir string, config *NodeConfig) (stack *Node, _ error) {
 			}
 		}
 	}
-	// Register the Ethereum protocol if requested
+	// Register the  Ethereum Quantum protocol if requested
 	if config.EthereumEnabled {
 		ethConf := eth.DefaultConfig
 		ethConf.Genesis = genesis
@@ -189,7 +189,7 @@ func (n *Node) Stop() error {
 	return n.node.Stop()
 }
 
-// GetEthereumClient retrieves a client to access the Ethereum subsystem.
+// GetEthereumClient retrieves a client to access the  Ethereum Quantum subsystem.
 func (n *Node) GetEthereumClient() (client *EthereumClient, _ error) {
 	rpc, err := n.node.Attach()
 	if err != nil {

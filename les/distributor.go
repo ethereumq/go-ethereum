@@ -15,7 +15,7 @@
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package light implements on-demand retrieval capable state and chain objects
-// for the Ethereum Light Client.
+// for the  Ethereum Quantum Light Client.
 package les
 
 import (

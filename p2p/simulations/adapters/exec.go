@@ -36,11 +36,11 @@ import (
 	"time"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/rpc"
 	"golang.org/x/net/websocket"
 )
 
@@ -359,7 +359,6 @@ func execP2PNode() {
 		log.Crit("error decoding _P2P_NODE_CONFIG", "err", err)
 	}
 	conf.Stack.P2P.PrivateKey = conf.Node.PrivateKey
-	conf.Stack.Logger = log.New("node.id", conf.Node.ID.String())
 
 	// use explicit IP address in ListenAddr so that Enode URL is usable
 	externalIP := func() string {

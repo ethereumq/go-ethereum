@@ -19,7 +19,7 @@
 /*
 The ci command is called from Continuous Integration scripts.
 
-Usage: go run build/ci.go <command> <command flags/arguments>
+Usage: go run ci.go <command> <command flags/arguments>
 
 Available commands are:
 
@@ -58,7 +58,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/internal/build"
+	"github.com/ethereumq/go-ethereumq/internal/build"
 )
 
 var (
@@ -85,7 +85,7 @@ var (
 	debExecutables = []debExecutable{
 		{
 			Name:        "abigen",
-			Description: "Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages.",
+			Description: "Source code generator to convert  Ethereum Quantum contract definitions into easy to use, compile-time type-safe Go packages.",
 		},
 		{
 			Name:        "bootnode",
@@ -199,7 +199,7 @@ func doInstall(cmdline []string) {
 		build.MustRun(goinstall)
 		return
 	}
-	// If we are cross compiling to ARMv5 ARMv6 or ARMv7, clean any previous builds
+	// If we are cross compiling to ARMv5 ARMv6 or ARMv7, clean any prvious builds
 	if *arch == "arm" {
 		os.RemoveAll(filepath.Join(runtime.GOROOT(), "pkg", runtime.GOOS+"_arm"))
 		for _, path := range filepath.SplitList(build.GOPATH()) {
@@ -319,25 +319,17 @@ func doLint(cmdline []string) {
 		packages = flag.CommandLine.Args()
 	}
 	// Get metalinter and install all supported linters
-	build.MustRun(goTool("get", "gopkg.in/alecthomas/gometalinter.v2"))
-	build.MustRunCommand(filepath.Join(GOBIN, "gometalinter.v2"), "--install")
+	build.MustRun(goTool("get", "gopkg.in/alecthomas/gometalinter.v1"))
+	build.MustRunCommand(filepath.Join(GOBIN, "gometalinter.v1"), "--install")
 
 	// Run fast linters batched together
-	configs := []string{
-		"--vendor",
-		"--disable-all",
-		"--enable=vet",
-		"--enable=gofmt",
-		"--enable=misspell",
-		"--enable=goconst",
-		"--min-occurrences=6", // for goconst
-	}
-	build.MustRunCommand(filepath.Join(GOBIN, "gometalinter.v2"), append(configs, packages...)...)
+	configs := []string{"--vendor", "--disable-all", "--enable=vet", "--enable=gofmt", "--enable=misspell"}
+	build.MustRunCommand(filepath.Join(GOBIN, "gometalinter.v1"), append(configs, packages...)...)
 
 	// Run slow linters one by one
-	for _, linter := range []string{"unconvert", "gosimple"} {
+	for _, linter := range []string{"unconvert"} {
 		configs = []string{"--vendor", "--deadline=10m", "--disable-all", "--enable=" + linter}
-		build.MustRunCommand(filepath.Join(GOBIN, "gometalinter.v2"), append(configs, packages...)...)
+		build.MustRunCommand(filepath.Join(GOBIN, "gometalinter.v1"), append(configs, packages...)...)
 	}
 }
 
@@ -724,7 +716,7 @@ func doAndroidArchive(cmdline []string) {
 	// Build the Android archive and Maven resources
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile"))
 	build.MustRun(gomobileTool("init", "--ndk", os.Getenv("ANDROID_NDK")))
-	build.MustRun(gomobileTool("bind", "--target", "android", "--javapkg", "org.ethereum", "-v", "github.com/ethereum/go-ethereum/mobile"))
+	build.MustRun(gomobileTool("bind", "--target", "android", "--javapkg", "org.ethereum", "-v", "github.com/ethereumq/go-ethereumq/mobile"))
 
 	if *local {
 		// If we're building locally, copy bundle to build dir and skip Maven
@@ -844,7 +836,7 @@ func doXCodeFramework(cmdline []string) {
 	// Build the iOS XCode framework
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile"))
 	build.MustRun(gomobileTool("init"))
-	bind := gomobileTool("bind", "--target", "ios", "--tags", "ios", "-v", "github.com/ethereum/go-ethereum/mobile")
+	bind := gomobileTool("bind", "--target", "ios", "--tags", "ios", "-v", "github.com/ethereumq/go-ethereumq/mobile")
 
 	if *local {
 		// If we're building locally, use the build folder and stop afterwards

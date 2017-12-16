@@ -22,10 +22,10 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereumq/go-ethereumq/accounts/abi"
+	"github.com/ethereumq/go-ethereumq/accounts/abi/bind"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
 )
 
 // Signer is an interaface defining the callback when a contract requires a
@@ -68,7 +68,7 @@ func (opts *CallOpts) SetGasLimit(limit int64)     { /* TODO(karalabe) */ }
 func (opts *CallOpts) SetContext(context *Context) { opts.opts.Context = context.context }
 
 // TransactOpts is the collection of authorization data required to create a
-// valid Ethereum transaction.
+// valid  Ethereum Quantum transaction.
 type TransactOpts struct {
 	opts bind.TransactOpts
 }
@@ -103,7 +103,7 @@ func (opts *TransactOpts) SetGasLimit(limit int64)     { opts.opts.GasLimit = bi
 func (opts *TransactOpts) SetContext(context *Context) { opts.opts.Context = context.context }
 
 // BoundContract is the base wrapper object that reflects a contract on the
-// Ethereum network. It contains a collection of methods that are used by the
+//  Ethereum Quantum network. It contains a collection of methods that are used by the
 // higher level contract bindings to operate.
 type BoundContract struct {
 	contract *bind.BoundContract
@@ -111,7 +111,7 @@ type BoundContract struct {
 	deployer *types.Transaction
 }
 
-// DeployContract deploys a contract onto the Ethereum blockchain and binds the
+// DeployContract deploys a contract onto the  Ethereum Quantum blockchain and binds the
 // deployment address with a wrapper.
 func DeployContract(opts *TransactOpts, abiJSON string, bytecode []byte, client *EthereumClient, args *Interfaces) (contract *BoundContract, _ error) {
 	// Deploy the contract to the network

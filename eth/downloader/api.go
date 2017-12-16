@@ -20,9 +20,9 @@ import (
 	"context"
 	"sync"
 
-	ethereum "github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/rpc"
+	ethereum "github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 // PublicDownloaderAPI provides an API which gives information about the current synchronisation status.
@@ -89,7 +89,7 @@ func (api *PublicDownloaderAPI) eventLoop() {
 	}
 }
 
-// Syncing provides information when this nodes starts synchronising with the Ethereum network and when it's finished.
+// Syncing provides information when this nodes starts synchronising with the  Ethereum Quantum network and when it's finished.
 func (api *PublicDownloaderAPI) Syncing(ctx context.Context) (*rpc.Subscription, error) {
 	notifier, supported := rpc.NotifierFromContext(ctx)
 	if !supported {

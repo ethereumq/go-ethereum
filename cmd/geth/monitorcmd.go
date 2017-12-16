@@ -25,9 +25,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/cmd/utils"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/rpc"
 	"github.com/gizak/termui"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -73,7 +73,7 @@ func monitor(ctx *cli.Context) error {
 		client *rpc.Client
 		err    error
 	)
-	// Attach to an Ethereum node over IPC or RPC
+	// Attach to an  Ethereum Quantum node over IPC or RPC
 	endpoint := ctx.String(monitorCommandAttachFlag.Name)
 	if client, err = dialRPC(endpoint); err != nil {
 		utils.Fatalf("Unable to attach to geth node: %v", err)

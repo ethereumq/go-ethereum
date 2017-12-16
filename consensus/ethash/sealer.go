@@ -24,17 +24,17 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/log"
 )
 
 // Seal implements consensus.Engine, attempting to find a nonce that satisfies
 // the block's difficulty requirements.
 func (ethash *Ethash) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan struct{}) (*types.Block, error) {
 	// If we're running a fake PoW, simply return a 0 nonce immediately
-	if ethash.config.PowMode == ModeFake || ethash.config.PowMode == ModeFullFake {
+	if ethash.fakeMode {
 		header := block.Header()
 		header.Nonce, header.MixDigest = types.BlockNonce{}, common.Hash{}
 		return block.WithSeal(header), nil

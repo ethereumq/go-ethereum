@@ -26,20 +26,19 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/fetcher"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/eth/fetcher"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
 )
 
 const (
@@ -51,9 +50,6 @@ const (
 	txChanSize = 4096
 )
 
-var (
-	daoChallengeTimeout = 15 * time.Second // Time allowance for a node to reply to the DAO handshake challenge
-)
 
 // errIncompatibleConfig is returned if the requested protocols and configs are
 // not compatible (low protocol version restrictions and high requirements).
@@ -97,7 +93,7 @@ type ProtocolManager struct {
 	wg sync.WaitGroup
 }
 
-// NewProtocolManager returns a new ethereum sub protocol manager. The Ethereum sub protocol manages peers capable
+// NewProtocolManager returns a new ethereum sub protocol manager. The  Ethereum Quantum sub protocol manages peers capable
 // with the ethereum network.
 func NewProtocolManager(config *params.ChainConfig, mode downloader.SyncMode, networkId uint64, mux *event.TypeMux, txpool txPool, engine consensus.Engine, blockchain *core.BlockChain, chaindb ethdb.Database) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
@@ -189,9 +185,9 @@ func (pm *ProtocolManager) removePeer(id string) {
 	if peer == nil {
 		return
 	}
-	log.Debug("Removing Ethereum peer", "peer", id)
+	log.Debug("Removing  Ethereum Quantum peer", "peer", id)
 
-	// Unregister the peer from the downloader and Ethereum peer set
+	// Unregister the peer from the downloader and  Ethereum Quantum peer set
 	pm.downloader.UnregisterPeer(id)
 	if err := pm.peers.Unregister(id); err != nil {
 		log.Error("Peer removal failed", "peer", id, "err", err)
@@ -220,7 +216,7 @@ func (pm *ProtocolManager) Start(maxPeers int) {
 }
 
 func (pm *ProtocolManager) Stop() {
-	log.Info("Stopping Ethereum protocol")
+	log.Info("Stopping  Ethereum Quantum protocol")
 
 	pm.txSub.Unsubscribe()         // quits txBroadcastLoop
 	pm.minedBlockSub.Unsubscribe() // quits blockBroadcastLoop
@@ -256,7 +252,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	}
 	p.Log().Debug("Ethereum peer connected", "name", p.Name())
 
-	// Execute the Ethereum handshake
+	// Execute the  Ethereum Quantum handshake
 	td, head, genesis := pm.blockchain.Status()
 	if err := p.Handshake(pm.networkId, td, head, genesis); err != nil {
 		p.Log().Debug("Ethereum handshake failed", "err", err)
@@ -280,25 +276,6 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	// after this will be sent via broadcasts.
 	pm.syncTransactions(p)
 
-	// If we're DAO hard-fork aware, validate any remote peer with regard to the hard-fork
-	if daoBlock := pm.chainconfig.DAOForkBlock; daoBlock != nil {
-		// Request the peer's DAO fork header for extra-data validation
-		if err := p.RequestHeadersByNumber(daoBlock.Uint64(), 1, 0, false); err != nil {
-			return err
-		}
-		// Start a timer to disconnect if the peer doesn't reply in time
-		p.forkDrop = time.AfterFunc(daoChallengeTimeout, func() {
-			p.Log().Debug("Timed out DAO fork-check, dropping")
-			pm.removePeer(p.id)
-		})
-		// Make sure it's cleaned up if the peer dies off
-		defer func() {
-			if p.forkDrop != nil {
-				p.forkDrop.Stop()
-				p.forkDrop = nil
-			}
-		}()
-	}
 	// main loop. handle incoming messages.
 	for {
 		if err := pm.handleMsg(p); err != nil {
@@ -412,43 +389,9 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		if err := msg.Decode(&headers); err != nil {
 			return errResp(ErrDecode, "msg %v: %v", msg, err)
 		}
-		// If no headers were received, but we're expending a DAO fork check, maybe it's that
-		if len(headers) == 0 && p.forkDrop != nil {
-			// Possibly an empty reply to the fork header checks, sanity check TDs
-			verifyDAO := true
-
-			// If we already have a DAO header, we can check the peer's TD against it. If
-			// the peer's ahead of this, it too must have a reply to the DAO check
-			if daoHeader := pm.blockchain.GetHeaderByNumber(pm.chainconfig.DAOForkBlock.Uint64()); daoHeader != nil {
-				if _, td := p.Head(); td.Cmp(pm.blockchain.GetTd(daoHeader.Hash(), daoHeader.Number.Uint64())) >= 0 {
-					verifyDAO = false
-				}
-			}
-			// If we're seemingly on the same chain, disable the drop timer
-			if verifyDAO {
-				p.Log().Debug("Seems to be on the same side of the DAO fork")
-				p.forkDrop.Stop()
-				p.forkDrop = nil
-				return nil
-			}
-		}
 		// Filter out any explicitly requested headers, deliver the rest to the downloader
 		filter := len(headers) == 1
 		if filter {
-			// If it's a potential DAO fork check, validate against the rules
-			if p.forkDrop != nil && pm.chainconfig.DAOForkBlock.Cmp(headers[0].Number) == 0 {
-				// Disable the fork drop timer
-				p.forkDrop.Stop()
-				p.forkDrop = nil
-
-				// Validate the header and either drop the peer or continue
-				if err := misc.VerifyDAOHeaderExtraData(pm.chainconfig, headers[0]); err != nil {
-					p.Log().Debug("Verified to be on the other side of the DAO fork, dropping")
-					return err
-				}
-				p.Log().Debug("Verified to be on the same side of the DAO fork")
-				return nil
-			}
 			// Irrelevant of the fork checks, send the header to the fetcher just in case
 			headers = pm.fetcher.FilterHeaders(p.id, headers, time.Now())
 		}
@@ -744,10 +687,10 @@ func (self *ProtocolManager) txBroadcastLoop() {
 	}
 }
 
-// EthNodeInfo represents a short summary of the Ethereum sub-protocol metadata known
+// EthNodeInfo represents a short summary of the  Ethereum Quantum sub-protocol metadata known
 // about the host peer.
 type EthNodeInfo struct {
-	Network    uint64      `json:"network"`    // Ethereum network ID (1=Frontier, 2=Morden, Ropsten=3)
+	Network    uint64      `json:"network"`    //  Ethereum Quantum network ID (1=Frontier, 2=Morden, Ropsten=3)
 	Difficulty *big.Int    `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Head       common.Hash `json:"head"`       // SHA3 hash of the host's best owned block

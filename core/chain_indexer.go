@@ -23,11 +23,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/log"
 )
 
 // ChainIndexerBackend defines the methods needed to process chain segments in
@@ -230,7 +230,7 @@ func (c *ChainIndexer) newHead(head uint64, reorg bool) {
 		if changed < c.storedSections {
 			c.setValidSections(changed)
 		}
-		// Update the new head number to the finalized section end and notify children
+		// Update the new head number to te finalized section end and notify children
 		head = changed * c.sectionSize
 
 		if head < c.cascadedHead {

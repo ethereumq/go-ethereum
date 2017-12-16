@@ -23,8 +23,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/ethereumq/go-ethereumq/common/math"
+	"github.com/ethereumq/go-ethereumq/core/vm"
 )
 
 // Compiler contains information about the parsed source
@@ -237,7 +237,10 @@ func (c *Compiler) pushBin(v interface{}) {
 // isPush returns whether the string op is either any of
 // push(N).
 func isPush(op string) bool {
-	return op == "push"
+	if op == "push" {
+		return true
+	}
+	return false
 }
 
 // isJump returns whether the string op is jump(i)

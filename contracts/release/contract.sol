@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// ReleaseOracle is an Ethereum contract to store the current and previous
+// ReleaseOracle is an  Ethereum Quantum contract to store the current and previous
 // versions of the go-ethereum implementation. Its goal is to allow Geth to
 // check for new releases automatically without the need to consult a central
 // repository.
@@ -77,7 +77,7 @@ contract ReleaseOracle {
     }
   }
 
-  // signers is an accessor method to retrieve all the signers (public accessor
+  // signers is an accessor method to retrieve all te signers (public accessor
   // generates an indexed one, not a retrieve-all version).
   function signers() constant returns(address[]) {
     return voters;
@@ -135,7 +135,7 @@ contract ReleaseOracle {
     updateRelease(0, 0, 0, 0, false);
   }
 
-  // updateSigner marks a vote for changing the status of an Ethereum user, either
+  // updateSigner marks a vote for changing the status of an  Ethereum Quantum user, either
   // for or against the user being an authorised signer.
   function updateSigner(address user, bool authorize) internal isSigner {
     // Gather the current votes and ensure we don't double vote

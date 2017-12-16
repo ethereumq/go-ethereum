@@ -22,8 +22,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
 )
 
 // NotFound is returned by API methods if the requested item does not exist.
@@ -96,7 +96,7 @@ type ChainStateReader interface {
 }
 
 // SyncProgress gives progress indications when the node is synchronising with
-// the Ethereum network.
+// the  Ethereum Quantum network.
 type SyncProgress struct {
 	StartingBlock uint64 // Block number where sync began
 	CurrentBlock  uint64 // Current block number where sync is at

@@ -25,20 +25,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/crypto/sha3"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/consensus/misc"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/crypto/sha3"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/rpc"
 	lru "github.com/hashicorp/golang-lru"
 )
 
@@ -167,7 +167,7 @@ func sigHash(header *types.Header) (hash common.Hash) {
 	return hash
 }
 
-// ecrecover extracts the Ethereum account address from a signed header.
+// ecrecover extracts the  Ethereum Quantum account address from a signed header.
 func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, error) {
 	// If the signature's already cached, return that
 	hash := header.Hash()
@@ -180,7 +180,7 @@ func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, er
 	}
 	signature := header.Extra[len(header.Extra)-extraSeal:]
 
-	// Recover the public key and the Ethereum address
+	// Recover the public key and the  Ethereum Quantum address
 	pubkey, err := crypto.Ecrecover(sigHash(header).Bytes(), signature)
 	if err != nil {
 		return common.Address{}, err
@@ -193,7 +193,7 @@ func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, er
 }
 
 // Clique is the proof-of-authority consensus engine proposed to support the
-// Ethereum testnet following the Ropsten attacks.
+//  Ethereum Quantum testnet following the Ropsten attacks.
 type Clique struct {
 	config *params.CliqueConfig // Consensus engine configuration parameters
 	db     ethdb.Database       // Database to store and retrieve snapshot checkpoints
@@ -203,7 +203,7 @@ type Clique struct {
 
 	proposals map[common.Address]bool // Current list of proposals we are pushing
 
-	signer common.Address // Ethereum address of the signing key
+	signer common.Address //  Ethereum Quantum address of the signing key
 	signFn SignerFn       // Signer function to authorize hashes with
 	lock   sync.RWMutex   // Protects the signer fields
 }
@@ -229,7 +229,7 @@ func New(config *params.CliqueConfig, db ethdb.Database) *Clique {
 	}
 }
 
-// Author implements consensus.Engine, returning the Ethereum address recovered
+// Author implements consensus.Engine, returning the  Ethereum Quantum address recovered
 // from the signature in the header's extra-data section.
 func (c *Clique) Author(header *types.Header) (common.Address, error) {
 	return ecrecover(header, c.signatures)
@@ -630,7 +630,7 @@ func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, stop <-ch
 		}
 	}
 	// Sweet, the protocol permits us to sign the block, wait for our time
-	delay := time.Unix(header.Time.Int64(), 0).Sub(time.Now()) // nolint: gosimple
+	delay := time.Unix(header.Time.Int64(), 0).Sub(time.Now())
 	if header.Difficulty.Cmp(diffNoTurn) == 0 {
 		// It's not our turn explicitly to sign, delay it a bit
 		wiggle := time.Duration(len(snap.Signers)/2+1) * wiggleTime

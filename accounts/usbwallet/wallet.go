@@ -25,11 +25,11 @@ import (
 	"sync"
 	"time"
 
-	ethereum "github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/log"
+	ethereum "github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/log"
 	"github.com/karalabe/hid"
 )
 
@@ -346,7 +346,7 @@ func (w *wallet) selfDerive() {
 			context = context.Background()
 		)
 		for empty := false; !empty; {
-			// Retrieve the next derived Ethereum account
+			// Retrieve the next derived  Ethereum Quantum account
 			if nextAddr == (common.Address{}) {
 				if nextAddr, err = w.driver.Derive(nextPath); err != nil {
 					w.log.Warn("USB wallet account derivation failed", "err", err)
@@ -505,7 +505,7 @@ func (w *wallet) SignHash(account accounts.Account, hash []byte) ([]byte, error)
 // wallet to request a confirmation from the user. It returns either the signed
 // transaction or a failure if the user denied the transaction.
 //
-// Note, if the version of the Ethereum application running on the Ledger wallet is
+// Note, if the version of the  Ethereum Quantum application running on the Ledger wallet is
 // too old to sign EIP-155 transactions, but such is requested nonetheless, an error
 // will be returned opposed to silently signing in Homestead mode.
 func (w *wallet) SignTx(account accounts.Account, tx *types.Transaction, chainID *big.Int) (*types.Transaction, error) {

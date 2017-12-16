@@ -23,8 +23,8 @@ import (
 	"math/rand"
 	"reflect"
 
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/crypto/sha3"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/crypto/sha3"
 )
 
 const (
@@ -135,7 +135,7 @@ func (h UnprefixedHash) MarshalText() ([]byte, error) {
 
 /////////// Address
 
-// Address represents the 20 byte address of an Ethereum account.
+// Address represents the 20 byte address of an  Ethereum Quantum account.
 type Address [AddressLength]byte
 
 func BytesToAddress(b []byte) Address {
@@ -148,12 +148,15 @@ func BigToAddress(b *big.Int) Address  { return BytesToAddress(b.Bytes()) }
 func HexToAddress(s string) Address    { return BytesToAddress(FromHex(s)) }
 
 // IsHexAddress verifies whether a string can represent a valid hex-encoded
-// Ethereum address or not.
+//  Ethereum Quantum address or not.
 func IsHexAddress(s string) bool {
-	if hasHexPrefix(s) {
-		s = s[2:]
+	if len(s) == 2+2*AddressLength && IsHex(s) {
+		return true
 	}
-	return len(s) == 2*AddressLength && isHex(s)
+	if len(s) == 2*AddressLength && IsHex("0x"+s) {
+		return true
+	}
+	return false
 }
 
 // Get the string representation of the underlying address

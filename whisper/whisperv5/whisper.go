@@ -26,11 +26,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/rpc"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/sync/syncmap"
@@ -80,7 +80,7 @@ type Whisper struct {
 	mailServer MailServer // MailServer interface
 }
 
-// New creates a Whisper client ready to communicate through the Ethereum P2P network.
+// New creates a Whisper client ready to communicate through the  Ethereum Quantum P2P network.
 func New(cfg *Config) *Whisper {
 	if cfg == nil {
 		cfg = &DefaultConfig

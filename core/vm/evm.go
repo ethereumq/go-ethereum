@@ -20,9 +20,9 @@ import (
 	"math/big"
 	"sync/atomic"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // emptyCodeHash is used by create to ensure deployment is disallowed to already
@@ -74,7 +74,7 @@ type Context struct {
 	Difficulty  *big.Int       // Provides information for DIFFICULTY
 }
 
-// EVM is the Ethereum Virtual Machine base object and provides
+// EVM is the  Ethereum Quantum Virtual Machine base object and provides
 // the necessary tools to run a contract on the given state with
 // the provided context. It should be noted that any error
 // generated through any of the calls should be considered a
@@ -104,10 +104,6 @@ type EVM struct {
 	// abort is used to abort the EVM calling operations
 	// NOTE: must be set atomically
 	abort int32
-	// callGasTemp holds the gas available for the current call. This is needed because the
-	// available gas is calculated in gasCall* according to the 63/64 rule and later
-	// applied in opCall*.
-	callGasTemp uint64
 }
 
 // NewEVM retutrns a new EVM . The returned EVM is not thread safe and should

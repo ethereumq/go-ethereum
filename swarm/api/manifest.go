@@ -27,9 +27,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/swarm/storage"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/swarm/storage"
 )
 
 const (
@@ -436,16 +436,6 @@ func (self *manifestTrie) findPrefixOf(path string, quitC chan bool) (entry *man
 	if len(path) <= epl {
 		if entry.Path[:len(path)] == path {
 			if entry.ContentType == ManifestType {
-				err := self.loadSubTrie(entry, quitC)
-				if err == nil && entry.subtrie != nil {
-					subentries := entry.subtrie.entries
-					for i := 0; i < len(subentries); i++ {
-						sub := subentries[i]
-						if sub != nil && sub.Path == "" {
-							return sub, len(path)
-						}
-					}
-				}
 				entry.Status = http.StatusMultipleChoices
 			}
 			pos = len(path)

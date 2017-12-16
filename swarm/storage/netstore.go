@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/log"
 )
 
 /*
@@ -57,19 +57,13 @@ type StoreParams struct {
 	Radius        int
 }
 
-//create params with default values
-func NewDefaultStoreParams() (self *StoreParams) {
+func NewStoreParams(path string) (self *StoreParams) {
 	return &StoreParams{
+		ChunkDbPath:   filepath.Join(path, "chunks"),
 		DbCapacity:    defaultDbCapacity,
 		CacheCapacity: defaultCacheCapacity,
 		Radius:        defaultRadius,
 	}
-}
-
-//this can only finally be set after all config options (file, cmd line, env vars)
-//have been evaluated
-func (self *StoreParams) Init(path string) {
-	self.ChunkDbPath = filepath.Join(path, "chunks")
 }
 
 // netstore contructor, takes path argument that is used to initialise dbStore,

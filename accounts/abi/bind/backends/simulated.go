@@ -24,17 +24,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/accounts/abi/bind"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/math"
+	"github.com/ethereumq/go-ethereumq/consensus/ethash"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // This nil assignment ensures compile time that SimulatedBackend implements bind.ContractBackend.
@@ -47,7 +47,7 @@ var errGasEstimationFailed = errors.New("gas required exceeds allowance or alway
 // the background. Its main purpose is to allow easily testing contract bindings.
 type SimulatedBackend struct {
 	database   ethdb.Database   // In memory database to store our testing data
-	blockchain *core.BlockChain // Ethereum blockchain to handle the consensus
+	blockchain *core.BlockChain //  Ethereum Quantum blockchain to handle the consensus
 
 	mu           sync.Mutex
 	pendingBlock *types.Block   // Currently pending block that will be imported on request

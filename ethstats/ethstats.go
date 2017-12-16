@@ -30,17 +30,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/les"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/mclock"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/les"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/rpc"
 	"golang.org/x/net/websocket"
 )
 
@@ -66,12 +66,12 @@ type blockChain interface {
 	SubscribeChainHeadEvent(ch chan<- core.ChainHeadEvent) event.Subscription
 }
 
-// Service implements an Ethereum netstats reporting daemon that pushes local
+// Service implements an  Ethereum Quantum netstats reporting daemon that pushes local
 // chain statistics up to a monitoring server.
 type Service struct {
 	server *p2p.Server        // Peer-to-peer server to retrieve networking infos
-	eth    *eth.Ethereum      // Full Ethereum service if monitoring a full node
-	les    *les.LightEthereum // Light Ethereum service if monitoring a light node
+	eth    *eth.Ethereum      // Full  Ethereum Quantum service if monitoring a full node
+	les    *les.LightEthereum // Light  Ethereum Quantum service if monitoring a light node
 	engine consensus.Engine   // Consensus engine to retrieve variadic block fields
 
 	node string // Name of the node to display on the monitoring page
@@ -193,6 +193,7 @@ func (s *Service) loop() {
 			}
 		}
 		close(quitCh)
+		return
 	}()
 	// Loop reporting until termination
 	for {

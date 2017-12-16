@@ -20,9 +20,9 @@ import (
 	"container/ring"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/log"
 )
 
 // headerRetriever is used by the unconfirmed block set to verify whether a previously
@@ -42,7 +42,7 @@ type unconfirmedBlock struct {
 // unconfirmedBlocks implements a data structure to maintain locally mined blocks
 // have have not yet reached enough maturity to guarantee chain inclusion. It is
 // used by the miner to provide logs to the user when a previously mined block
-// has a high enough guarantee to not be reorged out of the canonical chain.
+// has a high enough guarantee to not be reorged out of te canonical chain.
 type unconfirmedBlocks struct {
 	chain  headerRetriever // Blockchain to verify canonical status through
 	depth  uint            // Depth after which to discard previous blocks

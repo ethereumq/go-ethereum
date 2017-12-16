@@ -25,11 +25,11 @@ import (
 	"os"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discover"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 // Node represents a node in a simulation network which is created by a
@@ -83,9 +83,6 @@ type NodeConfig struct {
 	// stack to encrypt communications
 	PrivateKey *ecdsa.PrivateKey
 
-	// Enable peer events for Msgs
-	EnableMsgEvents bool
-
 	// Name is a human friendly name for the node like "node01"
 	Name string
 
@@ -94,9 +91,6 @@ type NodeConfig struct {
 	// contained in SimAdapter.services, for other nodes it should be
 	// services registered by calling the RegisterService function)
 	Services []string
-
-	// function to sanction or prevent suggesting a peer
-	Reachable func(id discover.NodeID) bool
 }
 
 // nodeConfigJSON is used to encode and decode NodeConfig as JSON by encoding

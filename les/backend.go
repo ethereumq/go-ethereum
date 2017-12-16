@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light Ethereum Subprotocol.
+// Package les implements the Light  Ethereum Quantum Subprotocol.
 package les
 
 import (
@@ -22,27 +22,27 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/bloombits"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/filters"
-	"github.com/ethereum/go-ethereum/eth/gasprice"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discv5"
-	"github.com/ethereum/go-ethereum/params"
-	rpc "github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq/accounts"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/bloombits"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/eth"
+	"github.com/ethereumq/go-ethereumq/eth/downloader"
+	"github.com/ethereumq/go-ethereumq/eth/filters"
+	"github.com/ethereumq/go-ethereumq/eth/gasprice"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/internal/ethapi"
+	"github.com/ethereumq/go-ethereumq/light"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/p2p/discv5"
+	"github.com/ethereumq/go-ethereumq/params"
+	rpc "github.com/ethereumq/go-ethereumq/rpc"
 )
 
 type LightEthereum struct {
@@ -98,7 +98,7 @@ func New(ctx *node.ServiceContext, config *eth.Config) (*LightEthereum, error) {
 		peers:            peers,
 		reqDist:          newRequestDistributor(peers, quitSync),
 		accountManager:   ctx.AccountManager,
-		engine:           eth.CreateConsensusEngine(ctx, &config.Ethash, chainConfig, chainDb),
+		engine:           eth.CreateConsensusEngine(ctx, config, chainConfig, chainDb),
 		shutdownChan:     make(chan bool),
 		networkId:        config.NetworkId,
 		bloomRequests:    make(chan chan *bloombits.Retrieval),
@@ -216,7 +216,7 @@ func (s *LightEthereum) Protocols() []p2p.Protocol {
 }
 
 // Start implements node.Service, starting all internal goroutines needed by the
-// Ethereum protocol implementation.
+//  Ethereum Quantum protocol implementation.
 func (s *LightEthereum) Start(srvr *p2p.Server) error {
 	s.startBloomHandlers()
 	log.Warn("Light client mode is an experimental feature")
@@ -230,7 +230,7 @@ func (s *LightEthereum) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// Ethereum protocol.
+//  Ethereum Quantum protocol.
 func (s *LightEthereum) Stop() error {
 	s.odr.Stop()
 	if s.bloomIndexer != nil {

@@ -24,8 +24,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/swarm/storage"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/swarm/storage"
 )
 
 var testDownloadDir, _ = ioutil.TempDir(os.TempDir(), "bzz-test")

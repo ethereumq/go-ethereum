@@ -28,30 +28,30 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/core"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/core/vm"
+	"github.com/ethereumq/go-ethereumq/internal/ethapi"
+	"github.com/ethereumq/go-ethereumq/log"
+	"github.com/ethereumq/go-ethereumq/miner"
+	"github.com/ethereumq/go-ethereumq/params"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/rpc"
+	"github.com/ethereumq/go-ethereumq/trie"
 )
 
 const defaultTraceTimeout = 5 * time.Second
 
-// PublicEthereumAPI provides an API to access Ethereum full node-related
+// PublicEthereumAPI provides an API to access  Ethereum Quantum full node-related
 // information.
 type PublicEthereumAPI struct {
 	e *Ethereum
 }
 
-// NewPublicEthereumAPI creates a new Ethereum protocol API for full nodes.
+// NewPublicEthereumAPI creates a new  Ethereum Quantum protocol API for full nodes.
 func NewPublicEthereumAPI(e *Ethereum) *PublicEthereumAPI {
 	return &PublicEthereumAPI{e}
 }
@@ -205,14 +205,14 @@ func (api *PrivateMinerAPI) GetHashrate() uint64 {
 	return uint64(api.e.miner.HashRate())
 }
 
-// PrivateAdminAPI is the collection of Ethereum full node-related APIs
+// PrivateAdminAPI is the collection of  Ethereum Quantum full node-related APIs
 // exposed over the private admin endpoint.
 type PrivateAdminAPI struct {
 	eth *Ethereum
 }
 
 // NewPrivateAdminAPI creates a new API definition for the full node private
-// admin methods of the Ethereum service.
+// admin methods of the  Ethereum Quantum service.
 func NewPrivateAdminAPI(eth *Ethereum) *PrivateAdminAPI {
 	return &PrivateAdminAPI{eth: eth}
 }
@@ -298,14 +298,14 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 	return true, nil
 }
 
-// PublicDebugAPI is the collection of Ethereum full node APIs exposed
+// PublicDebugAPI is the collection of  Ethereum Quantum full node APIs exposed
 // over the public debugging endpoint.
 type PublicDebugAPI struct {
 	eth *Ethereum
 }
 
 // NewPublicDebugAPI creates a new API definition for the full node-
-// related public debug methods of the Ethereum service.
+// related public debug methods of the  Ethereum Quantum service.
 func NewPublicDebugAPI(eth *Ethereum) *PublicDebugAPI {
 	return &PublicDebugAPI{eth: eth}
 }
@@ -335,7 +335,7 @@ func (api *PublicDebugAPI) DumpBlock(blockNr rpc.BlockNumber) (state.Dump, error
 	return stateDb.RawDump(), nil
 }
 
-// PrivateDebugAPI is the collection of Ethereum full node APIs exposed over
+// PrivateDebugAPI is the collection of  Ethereum Quantum full node APIs exposed over
 // the private debugging endpoint.
 type PrivateDebugAPI struct {
 	config *params.ChainConfig
@@ -343,7 +343,7 @@ type PrivateDebugAPI struct {
 }
 
 // NewPrivateDebugAPI creates a new API definition for the full node-related
-// private debug methods of the Ethereum service.
+// private debug methods of the  Ethereum Quantum service.
 func NewPrivateDebugAPI(config *params.ChainConfig, eth *Ethereum) *PrivateDebugAPI {
 	return &PrivateDebugAPI{config: config, eth: eth}
 }
@@ -452,12 +452,7 @@ func (api *PrivateDebugAPI) traceBlock(block *types.Block, logConfig *vm.LogConf
 	}
 	statedb, err := blockchain.StateAt(blockchain.GetBlock(block.ParentHash(), block.NumberU64()-1).Root())
 	if err != nil {
-		switch err.(type) {
-		case *trie.MissingNodeError:
-			return false, structLogger.StructLogs(), fmt.Errorf("required historical state unavailable")
-		default:
-			return false, structLogger.StructLogs(), err
-		}
+		return false, structLogger.StructLogs(), err
 	}
 
 	receipts, _, usedGas, err := processor.Process(block, statedb, config)
@@ -523,12 +518,7 @@ func (api *PrivateDebugAPI) TraceTransaction(ctx context.Context, txHash common.
 	}
 	msg, context, statedb, err := api.computeTxEnv(blockHash, int(txIndex))
 	if err != nil {
-		switch err.(type) {
-		case *trie.MissingNodeError:
-			return nil, fmt.Errorf("required historical state unavailable")
-		default:
-			return nil, err
-		}
+		return nil, err
 	}
 
 	// Run the transaction with tracing enabled.
@@ -625,18 +615,14 @@ func (api *PrivateDebugAPI) StorageRangeAt(ctx context.Context, blockHash common
 	if st == nil {
 		return StorageRangeResult{}, fmt.Errorf("account %x doesn't exist", contractAddress)
 	}
-	return storageRangeAt(st, keyStart, maxResult)
+	return storageRangeAt(st, keyStart, maxResult), nil
 }
 
-func storageRangeAt(st state.Trie, start []byte, maxResult int) (StorageRangeResult, error) {
+func storageRangeAt(st state.Trie, start []byte, maxResult int) StorageRangeResult {
 	it := trie.NewIterator(st.NodeIterator(start))
 	result := StorageRangeResult{Storage: storageMap{}}
 	for i := 0; i < maxResult && it.Next(); i++ {
-		_, content, _, err := rlp.Split(it.Value)
-		if err != nil {
-			return StorageRangeResult{}, err
-		}
-		e := storageEntry{Value: common.BytesToHash(content)}
+		e := storageEntry{Value: common.BytesToHash(it.Value)}
 		if preimage := st.GetKey(it.Key); preimage != nil {
 			preimage := common.BytesToHash(preimage)
 			e.Key = &preimage
@@ -648,7 +634,7 @@ func storageRangeAt(st state.Trie, start []byte, maxResult int) (StorageRangeRes
 		next := common.BytesToHash(it.Key)
 		result.NextKey = &next
 	}
-	return result, nil
+	return result
 }
 
 // GetModifiedAccountsByumber returns all accounts that have changed between the

@@ -20,13 +20,13 @@ import (
 	"context"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereumq/go-ethereumq"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/hexutil"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/internal/ethapi"
+	"github.com/ethereumq/go-ethereumq/rlp"
+	"github.com/ethereumq/go-ethereumq/rpc"
 )
 
 // ContractBackend implements bind.ContractBackend with direct calls to Ethereum
@@ -37,13 +37,13 @@ import (
 // object. These should be rewritten to internal Go method calls when the Go API
 // is refactored to support a clean library use.
 type ContractBackend struct {
-	eapi  *ethapi.PublicEthereumAPI        // Wrapper around the Ethereum object to access metadata
+	eapi  *ethapi.PublicEthereumAPI        // Wrapper around the  Ethereum Quantum object to access metadata
 	bcapi *ethapi.PublicBlockChainAPI      // Wrapper around the blockchain to access chain data
 	txapi *ethapi.PublicTransactionPoolAPI // Wrapper around the transaction pool to access transaction data
 }
 
 // NewContractBackend creates a new native contract backend using an existing
-// Ethereum object.
+//  Ethereum Quantum object.
 func NewContractBackend(apiBackend ethapi.Backend) *ContractBackend {
 	return &ContractBackend{
 		eapi:  ethapi.NewPublicEthereumAPI(apiBackend),
@@ -62,7 +62,7 @@ func (b *ContractBackend) PendingCodeAt(ctx context.Context, contract common.Add
 	return b.bcapi.GetCode(ctx, contract, rpc.PendingBlockNumber)
 }
 
-// ContractCall implements bind.ContractCaller executing an Ethereum contract
+// ContractCall implements bind.ContractCaller executing an  Ethereum Quantum contract
 // call with the specified data as the input. The pending flag requests execution
 // against the pending block, not the stable head of the chain.
 func (b *ContractBackend) CallContract(ctx context.Context, msg ethereum.CallMsg, blockNum *big.Int) ([]byte, error) {
@@ -70,7 +70,7 @@ func (b *ContractBackend) CallContract(ctx context.Context, msg ethereum.CallMsg
 	return out, err
 }
 
-// ContractCall implements bind.ContractCaller executing an Ethereum contract
+// ContractCall implements bind.ContractCaller executing an  Ethereum Quantum contract
 // call with the specified data as the input. The pending flag requests execution
 // against the pending block, not the stable head of the chain.
 func (b *ContractBackend) PendingCallContract(ctx context.Context, msg ethereum.CallMsg) ([]byte, error) {

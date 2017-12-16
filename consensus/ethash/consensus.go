@@ -24,22 +24,21 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/common/math"
+	"github.com/ethereumq/go-ethereumq/consensus"
+	"github.com/ethereumq/go-ethereumq/consensus/misc"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/params"
 	set "gopkg.in/fatih/set.v0"
 )
 
 // Ethash proof-of-work protocol constants.
 var (
-	FrontierBlockReward    *big.Int = big.NewInt(5e+18) // Block reward in wei for successfully mining a block
-	ByzantiumBlockReward   *big.Int = big.NewInt(3e+18) // Block reward in wei for successfully mining a block upward from Byzantium
-	maxUncles                       = 2                 // Maximum number of uncles allowed in a single block
-	allowedFutureBlockTime          = 15 * time.Second  // Max time from current time allowed for blocks, before they're considered future blocks
+	frontierBlockReward  *big.Int = big.NewInt(5e+18) // Block reward in wei for successfully mining a block
+	byzantiumBlockReward *big.Int = big.NewInt(3e+18) // Block reward in wei for successfully mining a block upward from Byzantium
+	maxUncles                     = 2                 // Maximum number of uncles allowed in a single block
 )
 
 // Various error messages to mark blocks invalid. These should be private to
@@ -66,10 +65,10 @@ func (ethash *Ethash) Author(header *types.Header) (common.Address, error) {
 }
 
 // VerifyHeader checks whether a header conforms to the consensus rules of the
-// stock Ethereum ethash engine.
+// stock  Ethereum Quantum ethash engine.
 func (ethash *Ethash) VerifyHeader(chain consensus.ChainReader, header *types.Header, seal bool) error {
 	// If we're running a full engine faking, accept any input as valid
-	if ethash.config.PowMode == ModeFullFake {
+	if ethash.fakeFull {
 		return nil
 	}
 	// Short circuit if the header is known, or it's parent not
@@ -90,7 +89,7 @@ func (ethash *Ethash) VerifyHeader(chain consensus.ChainReader, header *types.He
 // a results channel to retrieve the async verifications.
 func (ethash *Ethash) VerifyHeaders(chain consensus.ChainReader, headers []*types.Header, seals []bool) (chan<- struct{}, <-chan error) {
 	// If we're running a full engine faking, accept any input as valid
-	if ethash.config.PowMode == ModeFullFake || len(headers) == 0 {
+	if ethash.fakeFull || len(headers) == 0 {
 		abort, results := make(chan struct{}), make(chan error, len(headers))
 		for i := 0; i < len(headers); i++ {
 			results <- nil
@@ -167,10 +166,10 @@ func (ethash *Ethash) verifyHeaderWorker(chain consensus.ChainReader, headers []
 }
 
 // VerifyUncles verifies that the given block's uncles conform to the consensus
-// rules of the stock Ethereum ethash engine.
+// rules of the stock  Ethereum Quantum ethash engine.
 func (ethash *Ethash) VerifyUncles(chain consensus.ChainReader, block *types.Block) error {
 	// If we're running a full engine faking, accept any input as valid
-	if ethash.config.PowMode == ModeFullFake {
+	if ethash.fakeFull {
 		return nil
 	}
 	// Verify that there are at most 2 uncles included in this block
@@ -219,7 +218,7 @@ func (ethash *Ethash) VerifyUncles(chain consensus.ChainReader, block *types.Blo
 }
 
 // verifyHeader checks whether a header conforms to the consensus rules of the
-// stock Ethereum ethash engine.
+// stock  Ethereum Quantum ethash engine.
 // See YP section 4.3.4. "Block Header Validity"
 func (ethash *Ethash) verifyHeader(chain consensus.ChainReader, header, parent *types.Header, uncle bool, seal bool) error {
 	// Ensure that the header's extra-data section is of a reasonable size
@@ -232,7 +231,7 @@ func (ethash *Ethash) verifyHeader(chain consensus.ChainReader, header, parent *
 			return errLargeBlockTime
 		}
 	} else {
-		if header.Time.Cmp(big.NewInt(time.Now().Add(allowedFutureBlockTime).Unix())) > 0 {
+		if header.Time.Cmp(big.NewInt(time.Now().Unix())) > 0 {
 			return consensus.ErrFutureBlock
 		}
 	}
@@ -275,9 +274,7 @@ func (ethash *Ethash) verifyHeader(chain consensus.ChainReader, header, parent *
 		}
 	}
 	// If all checks passed, validate any special fields for hard forks
-	if err := misc.VerifyDAOHeaderExtraData(chain.Config(), header); err != nil {
-		return err
-	}
+
 	if err := misc.VerifyForkHashes(chain.Config(), header, uncle); err != nil {
 		return err
 	}
@@ -456,7 +453,7 @@ func calcDifficultyFrontier(time uint64, parent *types.Header) *big.Int {
 // the PoW difficulty requirements.
 func (ethash *Ethash) VerifySeal(chain consensus.ChainReader, header *types.Header) error {
 	// If we're running a fake PoW, accept any seal as valid
-	if ethash.config.PowMode == ModeFake || ethash.config.PowMode == ModeFullFake {
+	if ethash.fakeMode {
 		time.Sleep(ethash.fakeDelay)
 		if ethash.fakeFail == header.Number.Uint64() {
 			return errInvalidPoW
@@ -481,7 +478,7 @@ func (ethash *Ethash) VerifySeal(chain consensus.ChainReader, header *types.Head
 	cache := ethash.cache(number)
 
 	size := datasetSize(number)
-	if ethash.config.PowMode == ModeTest {
+	if ethash.tester {
 		size = 32 * 1024
 	}
 	digest, result := hashimotoLight(size, cache, header.HashNoNonce().Bytes(), header.Nonce.Uint64())
@@ -530,9 +527,9 @@ var (
 // TODO (karalabe): Move the chain maker into this package and make this private!
 func AccumulateRewards(config *params.ChainConfig, state *state.StateDB, header *types.Header, uncles []*types.Header) {
 	// Select the correct block reward based on chain progression
-	blockReward := FrontierBlockReward
+	blockReward := frontierBlockReward
 	if config.IsByzantium(header.Number) {
-		blockReward = ByzantiumBlockReward
+		blockReward = byzantiumBlockReward
 	}
 	// Accumulate the rewards for the miner and any included uncles
 	reward := new(big.Int).Set(blockReward)

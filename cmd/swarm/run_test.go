@@ -27,13 +27,12 @@ import (
 	"time"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/internal/cmdtest"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/swarm"
+	"github.com/ethereumq/go-ethereumq/accounts/keystore"
+	"github.com/ethereumq/go-ethereumq/internal/cmdtest"
+	"github.com/ethereumq/go-ethereumq/node"
+	"github.com/ethereumq/go-ethereumq/p2p"
+	"github.com/ethereumq/go-ethereumq/rpc"
+	"github.com/ethereumq/go-ethereumq/swarm"
 )
 
 func init() {
@@ -157,9 +156,9 @@ type testNode struct {
 
 const testPassphrase = "swarm-test-passphrase"
 
-func getTestAccount(t *testing.T, dir string) (conf *node.Config, account accounts.Account) {
+func newTestNode(t *testing.T, dir string) *testNode {
 	// create key
-	conf = &node.Config{
+	conf := &node.Config{
 		DataDir: dir,
 		IPCPath: "bzzd.ipc",
 		NoUSB:   true,
@@ -168,23 +167,17 @@ func getTestAccount(t *testing.T, dir string) (conf *node.Config, account accoun
 	if err != nil {
 		t.Fatal(err)
 	}
-	account, err = n.AccountManager().Backends(keystore.KeyStoreType)[0].(*keystore.KeyStore).NewAccount(testPassphrase)
+	account, err := n.AccountManager().Backends(keystore.KeyStoreType)[0].(*keystore.KeyStore).NewAccount(testPassphrase)
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	node := &testNode{Dir: dir}
 
 	// use a unique IPCPath when running tests on Windows
 	if runtime.GOOS == "windows" {
 		conf.IPCPath = fmt.Sprintf("bzzd-%s.ipc", account.Address.String())
 	}
-
-	return conf, account
-}
-
-func newTestNode(t *testing.T, dir string) *testNode {
-
-	conf, account := getTestAccount(t, dir)
-	node := &testNode{Dir: dir}
 
 	// assign ports
 	httpPort, err := assignTCPPort()

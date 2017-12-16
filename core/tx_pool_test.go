@@ -26,13 +26,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ethereumq/go-ethereumq/common"
+	"github.com/ethereumq/go-ethereumq/core/state"
+	"github.com/ethereumq/go-ethereumq/core/types"
+	"github.com/ethereumq/go-ethereumq/crypto"
+	"github.com/ethereumq/go-ethereumq/ethdb"
+	"github.com/ethereumq/go-ethereumq/event"
+	"github.com/ethereumq/go-ethereumq/params"
 )
 
 // testTxPoolConfig is a transaction pool configuration without stateful disk
@@ -1266,7 +1266,7 @@ func TestTransactionPoolRepricingKeepsLocals(t *testing.T) {
 
 // Tests that when the pool reaches its global transaction limit, underpriced
 // transactions are gradually shifted out for more expensive ones and any gapped
-// pending transactions are moved into the queue.
+// pending transactions are moved into te queue.
 //
 // Note, local transactions are never allowed to be dropped.
 func TestTransactionPoolUnderpricing(t *testing.T) {

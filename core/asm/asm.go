@@ -21,7 +21,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/ethereumq/go-ethereumq/core/vm"
 )
 
 // Iterator for disassembled EVM instructions
@@ -114,7 +114,10 @@ func PrintDisassembled(code string) error {
 			fmt.Printf("%06v: %v\n", it.PC(), it.Op())
 		}
 	}
-	return it.Error()
+	if err := it.Error(); err != nil {
+		return err
+	}
+	return nil
 }
 
 // Return all disassembled EVM instructions in human-readable format.

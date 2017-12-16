@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package bind generates Ethereum contract Go bindings.
+// Package bind generates  Ethereum Quantum contract Go bindings.
 //
 // Detailed usage document and tutorial available on the go-ethereum Wiki page:
-// https://github.com/ethereum/go-ethereum/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts
+// https://github.com/ethereumq/go-ethereumq/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts
 package bind
 
 import (
@@ -28,7 +28,7 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereumq/go-ethereumq/accounts/abi"
 	"golang.org/x/tools/imports"
 )
 
@@ -129,7 +129,7 @@ func Bind(types []string, abis []string, bytecodes []string, pkg string, lang La
 		return string(code), nil
 	}
 	// For all others just return as is for now
-	return buffer.String(), nil
+	return string(buffer.Bytes()), nil
 }
 
 // bindType is a set of type binders that convert Solidity types to some supported
