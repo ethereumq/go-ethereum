@@ -29,7 +29,7 @@ import (
 )
 
 // The values in those tests are from the Transaction Tests
-// at github.com/ethereum/tests.
+// at github.com/ethereumq/tests.
 var (
 	emptyTx = NewTransaction(
 		0,

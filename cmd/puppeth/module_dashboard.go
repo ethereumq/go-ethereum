@@ -208,7 +208,7 @@ var dashboardContent = `
 											<pre>ethereumwallet --rpc $HOME/.{{.Network}}/geth.ipc --node-networkid={{.NetworkID}} --node-datadir=$HOME/.{{.Network}}{{if .Ethstats}} --node-ethstats='{{.Ethstats}}'{{end}} --node-bootnodes={{.BootnodesFullFlat}}</pre>
 										<p>
 										<br/>
-										<p>You can download the  Ethereum Quantum Wallet from <a href="https://github.com/ethereum/mist/releases" target="about:blank">https://github.com/ethereum/mist/releases</a>.</p>
+										<p>You can download the  Ethereum Quantum Wallet from <a href="https://github.com/ethereumq/mist/releases" target="about:blank">https://github.com/ethereumq/mist/releases</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -229,7 +229,7 @@ var dashboardContent = `
 											<pre>mist --rpc $HOME/.{{.Network}}/geth.ipc --node-networkid={{.NetworkID}} --node-datadir=$HOME/.{{.Network}}{{if .Ethstats}} --node-ethstats='{{.Ethstats}}'{{end}} --node-bootnodes={{.BootnodesFullFlat}}</pre>
 										<p>
 										<br/>
-										<p>You can download the Mist browser from <a href="https://github.com/ethereum/mist/releases" target="about:blank">https://github.com/ethereum/mist/releases</a>.</p>
+										<p>You can download the Mist browser from <a href="https://github.com/ethereumq/mist/releases" target="about:blank">https://github.com/ethereumq/mist/releases</a>.</p>
 									</div>
 								</div>
 							</div>

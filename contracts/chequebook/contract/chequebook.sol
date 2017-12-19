@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "https://github.com/ethereum/solidity/std/mortal.sol";
+import "https://github.com/ethereumq/solidity/std/mortal.sol";
 
 /// @title Chequebook for  Ethereum Quantum micropayments
 /// @author Daniel A. Nagy <daniel@ethereum.org>

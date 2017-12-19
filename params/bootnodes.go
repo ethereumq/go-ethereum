@@ -20,6 +20,8 @@ package params
 // the main  Ethereum Quantum network.
 var MainnetBootnodes = []string{
 	//  Ethereum Quantum Foundation Go Bootnodes
+"enode://4dd2f4036a90b6383f9427809e16561b5098bea26b348e201e0efbc357e46dad0a472fa573ab17692676a34a5cf598f742cf2a4ca1df793f9bd15e18ec62f9ee@34.233.99.171:40303",
+
 }
 
 // TestnetBootnodes are the enode URLs of the P2P bootstrap nodes running on the
