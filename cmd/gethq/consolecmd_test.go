@@ -40,7 +40,7 @@ const (
 func TestConsoleWelcome(t *testing.T) {
 	coinbase := "0x8605cdbbdb6d264aa742e77020dcbc58fcdce182"
 
-	// Start a GetHQ console, make sure it's cleaned up and terminate the console
+	// Start a gethq console, make sure it's cleaned up and terminate the console
 	geth := runGeth(t,
 		"--port", "0", "--maxpeers", "0", "--nodiscover", "--nat", "none",
 		"--etherbase", coinbase, "--shh",
@@ -56,7 +56,7 @@ func TestConsoleWelcome(t *testing.T) {
 
 	// Verify the actual welcome message to the required template
 	geth.Expect(`
-Welcome to the GetHQ JavaScript console!
+Welcome to the gethq JavaScript console!
 
 instance: Geth/v{{gethver}}/{{goos}}-{{goarch}}/{{gover}}
 coinbase: {{.Etherbase}}
@@ -123,8 +123,8 @@ func TestWSAttachWelcome(t *testing.T) {
 	geth.ExpectExit()
 }
 
-func testAttachWelcome(t *testing.T, GetHQ *testgeth, endpoint, apis string) {
-	// Attach to a running GetHQ note and terminate immediately
+func testAttachWelcome(t *testing.T, gethq *testgeth, endpoint, apis string) {
+	// Attach to a running gethq note and terminate immediately
 	attach := runGeth(t, "attach", endpoint)
 	defer attach.ExpectExit()
 	attach.CloseStdin()
@@ -142,7 +142,7 @@ func testAttachWelcome(t *testing.T, GetHQ *testgeth, endpoint, apis string) {
 
 	// Verify the actual welcome message to the required template
 	attach.Expect(`
-Welcome to the GetHQ JavaScript console!
+Welcome to the gethq JavaScript console!
 
 instance: Geth/v{{gethver}}/{{goos}}-{{goarch}}/{{gover}}
 coinbase: {{etherbase}}

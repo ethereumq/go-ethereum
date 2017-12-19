@@ -61,7 +61,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-// spawns GetHQ with the given command line args. If the args don't set --datadir, the
+// spawns gethq with the given command line args. If the args don't set --datadir, the
 // child g gets a temporary data directory.
 func runGeth(t *testing.T, args ...string) *testgeth {
 	tt := &testgeth{}

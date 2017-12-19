@@ -12,7 +12,7 @@ PageEx license
   LicenseData {{.License}}
 PageExEnd
 
-# Install GetHQ binary
+# Install gethq binary
 Section "Geth" GETH_IDX
   SetOutPath $INSTDIR
   file {{.Geth}}

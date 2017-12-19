@@ -709,7 +709,7 @@ func setIPC(ctx *cli.Context, cfg *node.Config) {
 }
 
 // makeDatabaseHandles raises out the number of allowed file handles per process
-// for GetHQ and returns half of the allowance to assign to the database.
+// for gethq and returns half of the allowance to assign to the database.
 func makeDatabaseHandles() int {
 	if err := raiseFdLimit(2048); err != nil {
 		Fatalf("Failed to raise file descriptor allowance: %v", err)
@@ -1179,11 +1179,11 @@ func MakeConsolePreloads(ctx *cli.Context) []string {
 // This is a temporary function used for migrating old command/flags to the
 // new format.
 //
-// e.g. GetHQ account new --keystore /tmp/mykeystore --lightkdf
+// e.g. gethq account new --keystore /tmp/mykeystore --lightkdf
 //
 // is equivalent after calling this method with:
 //
-// GetHQ --keystore /tmp/mykeystore --lightkdf account new
+// gethq --keystore /tmp/mykeystore --lightkdf account new
 //
 // This allows the use of the existing configuration functionality.
 // When all flags are migrated this function can be removed and the existing

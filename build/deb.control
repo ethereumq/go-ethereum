@@ -11,8 +11,8 @@ Vcs-Browser: https://github.com/ethereumq/go-ethereumq
 Package: {{.Name}}
 Architecture: any
 Depends: ${misc:Depends}, {{.ExeList}}
-Description: Meta-package to install GetHQ and other tools
- Meta-package to install GetHQ and other tools
+Description: Meta-package to install gethq and other tools
+ Meta-package to install gethq and other tools
 
 {{range .Executables}}
 Package: {{$.ExeName .}}

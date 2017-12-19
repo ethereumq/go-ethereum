@@ -90,12 +90,12 @@ func NewNodeConfig() *NodeConfig {
 	return &config
 }
 
-// Node represents a GetHQ  Ethereum Quantum node instance.
+// Node represents a gethq  Ethereum Quantum node instance.
 type Node struct {
 	node *node.Node
 }
 
-// NewNode creates and configures a new GetHQ node.
+// NewNode creates and configures a new gethq node.
 func NewNode(datadir string, config *NodeConfig) (stack *Node, _ error) {
 	// If no or partial configurations were specified, use defaults
 	if config == nil {

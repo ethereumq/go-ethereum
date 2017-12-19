@@ -15,7 +15,7 @@
 // along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
 
-// GetHQ is the official command-line client for Ethereum.
+// gethq is the official command-line client for Ethereum.
 package main
 
 import (
@@ -47,7 +47,7 @@ const (
 var (
 	// Git SHA1 commit hash of the release (set via linker flags)
 	gitCommit = ""
-	//  Ethereum Quantum address of the GetHQ release oracle.
+	//  Ethereum Quantum address of the gethq release oracle.
 	relOracle = common.HexToAddress("0xfa7b9770ca4cb04296cac84f37736d4041251cdf")
 	// The app that holds all commands and flags.
 	app = utils.NewApp(gitCommit, "the go-ethereum command line interface")
@@ -207,7 +207,7 @@ func main() {
 	}
 }
 
-// GetHQ is the main entry point into the system if no special subcommand is ran.
+// gethq is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
 func geth(ctx *cli.Context) error {

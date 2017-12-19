@@ -201,7 +201,7 @@ func TestAndroid(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	// Generate the mobile bindings for GetHQ and add the tester class
+	// Generate the mobile bindings for gethq and add the tester class
 	gobind := exec.Command("gomobile", "bind", "-javapkg", "org.ethereum", "github.com/ethereumq/go-ethereumq/mobile")
 	if output, err := gobind.CombinedOutput(); err != nil {
 		t.Logf("%s", output)

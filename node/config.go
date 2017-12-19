@@ -48,7 +48,7 @@ const (
 // all registered services.
 type Config struct {
 	// Name sets the instance name of the node. It must not contain the / character and is
-	// used in the devp2p node identifier. The instance name of GetHQ is "geth". If no
+	// used in the devp2p node identifier. The instance name of gethq is "gethq". If no
 	// value is specified, the basename of the current executable is used.
 	Name string `toml:"-"`
 
@@ -259,7 +259,7 @@ func (c *Config) resolvePath(path string) string {
 		return ""
 	}
 	// Backwards-compatibility: ensure that data directory files created
-	// by GetHQ 1.4 are used if they exist.
+	// by gethq 1.4 are used if they exist.
 	if c.name() == "geth" && isOldGethResource[path] {
 		oldpath := ""
 		if c.Name == "geth" {

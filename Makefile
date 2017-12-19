@@ -2,7 +2,7 @@
 # with Go source code. If you know what GOPATH is then you probably
 # don't need to bother with make.
 
-.PHONY: GetHQ android ios gethq-cross swarm evm all test clean
+.PHONY: gethq android ios gethq-cross swarm evm all test clean
 .PHONY: gethq-linux gethq-linux-386 gethq-linux-amd64 gethq-linux-mips64 gethq-linux-mips64le
 .PHONY: gethq-linux-arm gethq-linux-arm-5 gethq-linux-arm-6 gethq-linux-arm-7 gethq-linux-arm64
 .PHONY: gethq-darwin gethq-darwin-386 gethq-darwin-amd64

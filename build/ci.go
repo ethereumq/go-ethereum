@@ -657,7 +657,7 @@ func doWindowsInstaller(cmdline []string) {
 	}
 
 	// Render NSIS scripts: Installer NSIS contains two installer sections,
-	// first section contains the GetHQ binary, second section holds the dev tools.
+	// first section contains the gethq binary, second section holds the dev tools.
 	templateData := map[string]interface{}{
 		"License":  "COPYING",
 		"Geth":     gethTool,

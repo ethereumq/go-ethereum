@@ -190,7 +190,7 @@ func makeFullNode(ctx *cli.Context) *node.Node {
 		copy(config.Commit[:], commit)
 		return release.NewReleaseService(ctx, config)
 	}); err != nil {
-		utils.Fatalf("Failed to register the GetHQ release oracle service: %v", err)
+		utils.Fatalf("Failed to register the gethq release oracle service: %v", err)
 	}
 	return stack
 }
