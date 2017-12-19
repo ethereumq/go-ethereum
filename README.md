@@ -24,7 +24,7 @@ The go-ethereum project comes with several wrappers/executables found in the `cm
 
 | Command    | Description |
 |:----------:|-------------|
-| **`geth`** | Our main  Ethereum Quantum CLI client. It is the entry point into the  Ethereum Quantum network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the  Ethereum Quantum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `geth --help` and the [CLI Wiki page](https://github.com/ethereumq/go-ethereumq/wiki/Command-Line-Options) for command line options. |
+| **`gethq`** | Our main  Ethereum Quantum CLI client. It is the entry point into the  Ethereum Quantum network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the  Ethereum Quantum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `gethq --help` and the [CLI Wiki page](https://github.com/ethereumq/go-ethereumq/wiki/Command-Line-Options) for command line options. |
 | `abigen` | Source code generator to convert  Ethereum Quantum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/ethereumq/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/ethereumq/go-ethereumq/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts) wiki page for details. |
 | `bootnode` | Stripped down version of our  Ethereum Quantum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `evm` | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
@@ -33,7 +33,7 @@ The go-ethereum project comes with several wrappers/executables found in the `cm
 | `swarm`    | swarm daemon and tools. This is the entrypoint for the swarm network. `swarm --help` for command line options and subcommands. See https://swarm-guide.readthedocs.io for swarm documentation. |
 | `puppeth`    | a CLI wizard that aids in creating a new  Ethereum Quantum network. |
 
-## Running geth
+## Running gethq
 
 Going through all the possible command line flags is out of scope here (please consult our
 [CLI Wiki page](https://github.com/ethereumq/go-ethereumq/wiki/Command-Line-Options)), but we've
@@ -58,11 +58,11 @@ This command will:
  * Bump the memory allowance of the database to 512MB (`--cache=512`), which can help significantly in
    sync times especially for HDD users. This flag is optional and you can set it as high or as low as
    you'd like, though we'd recommend the 512MB - 2GB range.
- * Start up Geth's built-in interactive [JavaScript console](https://github.com/ethereumq/go-ethereumq/wiki/JavaScript-Console),
+ * Start up Gethq's built-in interactive [JavaScript console](https://github.com/ethereumq/go-ethereumq/wiki/JavaScript-Console),
    (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/ethereumq/wiki/wiki/JavaScript-API)
-   as well as Geth's own [management APIs](https://github.com/ethereumq/go-ethereumq/wiki/Management-APIs).
+   as well as Gethq's own [management APIs](https://github.com/ethereumq/go-ethereumq/wiki/Management-APIs).
    This too is optional and if you leave it out you can always attach to an already running gethq instance
-   with `geth attach`.
+   with `gethq attach`.
 
 ### Full node on the  Ethereum Quantum test network
 
@@ -81,11 +81,11 @@ here.
 
 Specifying the `--testnet` flag however will reconfigure your gethq instance a bit:
 
- * Instead of using the default data directory (`~/.ethereum` on Linux for example), gethq will nest
-   itself one level deeper into a `testnet` subfolder (`~/.ethereum/testnet` on Linux). Note, on OSX
+ * Instead of using the default data directory (`~/.ethereumq` on Linux for example), gethq will nest
+   itself one level deeper into a `testnet` subfolder (`~/.ethereumq/testnet` on Linux). Note, on OSX
    and Linux this also means that attaching to a running testnet node requires the use of a custom
-   endpoint since `geth attach` will try to attach to a production node endpoint by default. E.g.
-   `geth attach <datadir>/testnet/geth.ipc`. Windows users are not affected by this.
+   endpoint since `gethq attach` will try to attach to a production node endpoint by default. E.g.
+   `gethq attach <datadir>/testnet/gethq.ipc`. Windows users are not affected by this.
  * Instead of connecting the main  Ethereum Quantum network, the client will connect to the test network,
    which uses different P2P bootnodes, different network IDs and genesis states.
    
@@ -96,7 +96,7 @@ separate the two networks and will not make any accounts available between them.
 
 ### Configuration
 
-As an alternative to passing the numerous flags to the `geth` binary, you can also pass a configuration file via:
+As an alternative to passing the numerous flags to the `gethq` binary, you can also pass a configuration file via:
 
 ```
 $ gethq --config /path/to/your_config.toml
@@ -122,17 +122,17 @@ docker run -d --name ethereum-node -v /Users/alice/ethereum:/root \
 
 This will start gethq in fast sync mode with a DB memory allowance of 512MB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
 
-Do not forget `--rpcaddr 0.0.0.0`, if you want to access RPC from other containers and/or hosts. By default, `geth` binds to the local interface and RPC endpoints is not accessible from the outside.
+Do not forget `--rpcaddr 0.0.0.0`, if you want to access RPC from other containers and/or hosts. By default, `gethq` binds to the local interface and RPC endpoints is not accessible from the outside.
 
 ### Programatically interfacing gethq nodes
 
 As a developer, sooner rather than later you'll want to start interacting with gethq and the Ethereum
 network via your own programs and not manually through the console. To aid this, gethq has built in
 support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereumq/wiki/wiki/JSON-RPC) and
-[Geth specific APIs](https://github.com/ethereumq/go-ethereumq/wiki/Management-APIs)). These can be
+[Gethq specific APIs](https://github.com/ethereumq/go-ethereumq/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platforms, and named pipes on Windows).
 
-The IPC interface is enabled by default and exposes all the APIs supported by Geth, whereas the HTTP
+The IPC interface is enabled by default and exposes all the APIs supported by Gethq, whereas the HTTP
 and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons.
 These can be turned on/off and configured as you'd expect.
 
@@ -251,7 +251,7 @@ repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical
 purposes as it can produce a stable stream of blocks at the correct intervals without needing heavy
-resources (consider running on a single thread, no need for multiple ones either). To start a Geth
+resources (consider running on a single thread, no need for multiple ones either). To start a Gethq
 instance for mining, run it with all your usual flags, extended by:
 
 ```
