@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.ethereum</groupId>
-  <artifactId>geth</artifactId>
+  <artifactId>gethq</artifactId>
   <version>{{.Version}}</version>
   <packaging>aar</packaging>
 
@@ -23,8 +23,8 @@
   </licenses>
 
   <organization>
-    <name>Ethereum</name>
-    <url>https://ethereum.org</url>
+    <name>Ethereum Quantum</name>
+    <url>https://ethereum.qorg</url>
   </organization>
 
   <developers>

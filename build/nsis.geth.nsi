@@ -6,7 +6,7 @@
 # - BUILDVERSION, build id version
 #
 # The created installer executes the following steps:
-# 1. install geth for all users
+# 1. install GetHQ for all users
 # 2. install optional development tools such as abigen
 # 3. create an uninstaller
 # 4. configures the Windows firewall for geth
@@ -55,7 +55,7 @@ ${EndIf}
 !macroend
 
 function .onInit
-  # make vars are global for all users since geth is installed global
+  # make vars are global for all users since GetHQ is installed global
   setShellVarContext all
   !insertmacro VerifyUserIsAdmin
 

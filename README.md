@@ -8,7 +8,7 @@ For prerequisites and detailed build instructions please read the
 [Installation Instructions](https://github.com/ethereumq/go-ethereumq/wiki/Building-Ethereum)
 on the wiki.
 
-Building geth requires both a Go (version 1.7 or later) and a C compiler.
+Building GetHQ requires both a Go (version 1.7 or later) and a C compiler.
 You can install them using your favourite package manager.
 Once the dependencies are installed, run
 
@@ -38,7 +38,7 @@ The go-ethereum project comes with several wrappers/executables found in the `cm
 Going through all the possible command line flags is out of scope here (please consult our
 [CLI Wiki page](https://github.com/ethereumq/go-ethereumq/wiki/Command-Line-Options)), but we've
 enumerated a few common parameter combos to get you up to speed quickly on how you can run your
-own Geth instance.
+own GetHQ instance.
 
 ### Full node on the main  Ethereum Quantum network
 
@@ -48,12 +48,12 @@ the user doesn't care about years-old historical data, so we can fast-sync quick
 state of the network. To do so:
 
 ```
-$ geth --fast --cache=512 console
+$ GetHQ --fast --cache=512 console
 ```
 
 This command will:
 
- * Start geth in fast sync mode (`--fast`), causing it to download more data in exchange for avoiding
+ * Start GetHQ in fast sync mode (`--fast`), causing it to download more data in exchange for avoiding
    processing the entire history of the  Ethereum Quantum network, which is very CPU intensive.
  * Bump the memory allowance of the database to 512MB (`--cache=512`), which can help significantly in
    sync times especially for HDD users. This flag is optional and you can set it as high or as low as
@@ -61,7 +61,7 @@ This command will:
  * Start up Geth's built-in interactive [JavaScript console](https://github.com/ethereumq/go-ethereumq/wiki/JavaScript-Console),
    (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/ethereumq/wiki/wiki/JavaScript-API)
    as well as Geth's own [management APIs](https://github.com/ethereumq/go-ethereumq/wiki/Management-APIs).
-   This too is optional and if you leave it out you can always attach to an already running Geth instance
+   This too is optional and if you leave it out you can always attach to an already running GetHQ instance
    with `geth attach`.
 
 ### Full node on the  Ethereum Quantum test network
@@ -72,16 +72,16 @@ entire system. In other words, instead of attaching to the main network, you wan
 network with your node, which is fully equivalent to the main network, but with play-Ether only.
 
 ```
-$ geth --testnet --fast --cache=512 console
+$ GetHQ --testnet --fast --cache=512 console
 ```
 
 The `--fast`, `--cache` flags and `console` subcommand have the exact same meaning as above and they
 are equally useful on the testnet too. Please see above for their explanations if you've skipped to
 here.
 
-Specifying the `--testnet` flag however will reconfigure your Geth instance a bit:
+Specifying the `--testnet` flag however will reconfigure your GetHQ instance a bit:
 
- * Instead of using the default data directory (`~/.ethereum` on Linux for example), Geth will nest
+ * Instead of using the default data directory (`~/.ethereum` on Linux for example), GetHQ will nest
    itself one level deeper into a `testnet` subfolder (`~/.ethereum/testnet` on Linux). Note, on OSX
    and Linux this also means that attaching to a running testnet node requires the use of a custom
    endpoint since `geth attach` will try to attach to a production node endpoint by default. E.g.
@@ -91,7 +91,7 @@ Specifying the `--testnet` flag however will reconfigure your Geth instance a bi
    
 *Note: Although there are some internal protective measures to prevent transactions from crossing
 over between the main network and test network, you should make sure to always use separate accounts
-for play-money and real-money. Unless you manually move accounts, Geth will by default correctly
+for play-money and real-money. Unless you manually move accounts, GetHQ will by default correctly
 separate the two networks and will not make any accounts available between them.*
 
 ### Configuration
@@ -99,16 +99,16 @@ separate the two networks and will not make any accounts available between them.
 As an alternative to passing the numerous flags to the `geth` binary, you can also pass a configuration file via:
 
 ```
-$ geth --config /path/to/your_config.toml
+$ GetHQ --config /path/to/your_config.toml
 ```
 
 To get an idea how the file should look like you can use the `dumpconfig` subcommand to export your existing configuration:
 
 ```
-$ geth --your-favourite-flags dumpconfig
+$ GetHQ --your-favourite-flags dumpconfig
 ```
 
-*Note: This works only with geth v1.6.0 and above.*
+*Note: This works only with GetHQ v1.6.0 and above.*
 
 #### Docker quick start
 
@@ -120,14 +120,14 @@ docker run -d --name ethereum-node -v /Users/alice/ethereum:/root \
            ethereum/client-go --fast --cache=512
 ```
 
-This will start geth in fast sync mode with a DB memory allowance of 512MB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
+This will start GetHQ in fast sync mode with a DB memory allowance of 512MB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
 
 Do not forget `--rpcaddr 0.0.0.0`, if you want to access RPC from other containers and/or hosts. By default, `geth` binds to the local interface and RPC endpoints is not accessible from the outside.
 
-### Programatically interfacing Geth nodes
+### Programatically interfacing GetHQ nodes
 
-As a developer, sooner rather than later you'll want to start interacting with Geth and the Ethereum
-network via your own programs and not manually through the console. To aid this, Geth has built in
+As a developer, sooner rather than later you'll want to start interacting with GetHQ and the Ethereum
+network via your own programs and not manually through the console. To aid this, GetHQ has built in
 support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereumq/wiki/wiki/JSON-RPC) and
 [Geth specific APIs](https://github.com/ethereumq/go-ethereumq/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platforms, and named pipes on Windows).
@@ -153,7 +153,7 @@ HTTP based JSON-RPC API options:
   * `--ipcpath` Filename for IPC socket/pipe within the datadir (explicit paths escape it)
 
 You'll need to use your own programming environments' capabilities (libraries, tools, etc) to connect
-via HTTP, WS or IPC to a Geth node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification)
+via HTTP, WS or IPC to a GetHQ node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification)
 on all transports. You can reuse the same connection for multiple requests!
 
 **Note: Please understand the security implications of opening up an HTTP/WS based transport before
@@ -203,11 +203,11 @@ configs:
 }
 ```
 
-With the genesis state defined in the above JSON file, you'll need to initialize **every** Geth node
+With the genesis state defined in the above JSON file, you'll need to initialize **every** GetHQ node
 with it prior to starting it up to ensure all blockchain parameters are correctly set:
 
 ```
-$ geth init path/to/genesis.json
+$ GetHQ init path/to/genesis.json
 ```
 
 #### Creating the rendezvous point
@@ -226,17 +226,17 @@ that other nodes can use to connect to it and exchange peer information. Make su
 displayed IP address information (most probably `[::]`) with your externally accessible IP to get the
 actual `enode` URL.
 
-*Note: You could also use a full fledged Geth node as a bootnode, but it's the less recommended way.*
+*Note: You could also use a full fledged GetHQ node as a bootnode, but it's the less recommended way.*
 
 #### Starting up your member nodes
 
 With the bootnode operational and externally reachable (you can try `telnet <ip> <port>` to ensure
-it's indeed reachable), start every subsequent Geth node pointed to the bootnode for peer discovery
+it's indeed reachable), start every subsequent GetHQ node pointed to the bootnode for peer discovery
 via the `--bootnodes` flag. It will probably also be desirable to keep the data directory of your
 private network separated, so do also specify a custom `--datadir` flag.
 
 ```
-$ geth --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
+$ GetHQ --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
 ```
 
 *Note: Since your network will be completely cut off from the main and test networks, you'll also
@@ -255,7 +255,7 @@ resources (consider running on a single thread, no need for multiple ones either
 instance for mining, run it with all your usual flags, extended by:
 
 ```
-$ geth <usual-flags> --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000
+$ GetHQ <usual-flags> --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000
 ```
 
 Which will start mining blocks and transactions on a single CPU thread, crediting all proceedings to
